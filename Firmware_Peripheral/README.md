@@ -1,0 +1,1 @@
+This folder contains the firmware for a peripheral (nRF51) which attempts to connect to the mesh network.
