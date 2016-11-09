@@ -38,10 +38,13 @@ remduplicates = $(strip $(if $1,$(firstword $1) $(call remduplicates,$(filter-ou
 #source common to all targets
 C_SOURCE_FILES += \
 $(abspath ../../../main.c) \
+$(abspath ../../../application.c) \
+$(abspath ../../../transport.c) \
 $(abspath ../../../../../bsp/bsp.c) \
 $(abspath ../../../../../bsp/bsp_btn_ble.c) \
 $(abspath ../../../../../../components/ble/common/ble_advdata.c) \
 $(abspath ../../../../../../components/ble/common/ble_conn_params.c) \
+$(abspath ../../../../../../components/ble/ble_advertising/ble_advertising.c) \
 $(abspath ../../../../../../components/ble/common/ble_srv_common.c) \
 $(abspath ../../../../../../components/ble/ble_db_discovery/ble_db_discovery.c) \
 $(abspath ../../../../../../components/ble/device_manager/device_manager_central.c) \
@@ -53,6 +56,7 @@ $(abspath ../../../../../../components/drivers_nrf/pstorage/pstorage.c) \
 $(abspath ../../../../../../components/drivers_nrf/uart/nrf_drv_uart.c) \
 $(abspath ../../../../../../components/libraries/button/app_button.c) \
 $(abspath ../../../../../../components/libraries/fifo/app_fifo.c) \
+$(abspath ../../../../../../components/libraries/fstorage/fstorage.c) \
 $(abspath ../../../../../../components/libraries/timer/app_timer.c) \
 $(abspath ../../../../../../components/libraries/trace/app_trace.c) \
 $(abspath ../../../../../../components/libraries/uart/retarget.c) \
@@ -72,9 +76,11 @@ $(abspath ../../../../../../external/segger_rtt/SEGGER_RTT_printf.c) \
 ASM_SOURCE_FILES  = $(abspath ../../../../../../components/toolchain/gcc/gcc_startup_nrf51.s)
 
 #includes common to all targets
+INC_PATHS += -I$(abspath ../../../)
 INC_PATHS += -I$(abspath ../../../config)
-INC_PATHS  = -I$(abspath ../../../config/tal_mesh_edge)
+INC_PATHS += -I$(abspath ../../../config/tal_mesh_edge)
 INC_PATHS += -I$(abspath ../../../../../bsp)
+INC_PATHS += -I$(abspath ../../../../../../components/ble/ble_advertising)
 INC_PATHS += -I$(abspath ../../../../../../components/ble/ble_db_discovery)
 INC_PATHS += -I$(abspath ../../../../../../components/ble/common)
 INC_PATHS += -I$(abspath ../../../../../../components/ble/device_manager)
@@ -90,7 +96,10 @@ INC_PATHS += -I$(abspath ../../../../../../components/drivers_nrf/pstorage)
 INC_PATHS += -I$(abspath ../../../../../../components/drivers_nrf/pstorage/config)
 INC_PATHS += -I$(abspath ../../../../../../components/drivers_nrf/uart)
 INC_PATHS += -I$(abspath ../../../../../../components/libraries/button)
+INC_PATHS += -I$(abspath ../../../../../../components/libraries/experimental_section_vars)
 INC_PATHS += -I$(abspath ../../../../../../components/libraries/fifo)
+INC_PATHS += -I$(abspath ../../../../../../components/libraries/fstorage)
+INC_PATHS += -I$(abspath ../../../../../../components/libraries/fstorage/config)
 INC_PATHS += -I$(abspath ../../../../../../components/libraries/timer)
 INC_PATHS += -I$(abspath ../../../../../../components/libraries/trace)
 INC_PATHS += -I$(abspath ../../../../../../components/libraries/uart)
@@ -244,7 +253,7 @@ flash_softdevice:
 	
 merge_s130:
 	mergehex --merge _build/nrf51422_xxac_s130.hex ../../../../../../../SoftDevices/s130_nrf51_2.0.1/s130_nrf51_2.0.1_softdevice.hex --output merged_s130.hex
-	copy merged_s130.hex E:\
+//	copy merged_s130.hex E:\
 
 merge_s110:
 	mergehex --merge _build/nrf51422_xxac_s130.hex ../../../../../../../SoftDevices/s110_nrf51_8.0.0/s110_nrf51_8.0.0_softdevice.hex --output merged_s110.hex

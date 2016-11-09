@@ -71,6 +71,16 @@
 			<locationURI>PARENT-3-PROJECT_LOC/main.c</locationURI>
 		</link>
 		<link>
+			<name>Application/application.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/application.c</locationURI>
+		</link>
+		<link>
+			<name>Application/transport.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/transport.c</locationURI>
+		</link>
+		<link>
 			<name>Board Support/bsp.c</name>
 			<type>1</type>
 			<locationURI>PARENT-5-PROJECT_LOC/bsp/bsp.c</locationURI>
