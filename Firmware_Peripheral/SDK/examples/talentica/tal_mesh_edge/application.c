@@ -25,10 +25,6 @@ static uint16_t destination_id = 0xFFBB;
  */
 void mesh_get_peer_location(void)
 {
-    /* Change the packet to send a new data packet.
-     * Todo: this packet should go out only once.
-     * Then revert back to the original beacon packet.
-     */
     uint8_t opcode = OPCODE_LOCATION_GET;
     uint8_t data[2];
 

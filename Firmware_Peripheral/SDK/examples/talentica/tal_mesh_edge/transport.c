@@ -19,6 +19,9 @@
 #define MANUFACTURER_ID_TALENTICA_LSB   (0xAA)
 #define SEND_NO_DATA                    (0)
 #define SEND_DATA                       (1)
+#define BLE_ADV_FAST_INTERVAL           (1280)     /*  Fast advertising interval (in units of 0.625 ms) = 0.8 seconds */
+#define BLE_ADV_FAST_TIMEOUT            (1)        /*  Fast advertising timeout (in units of 1 s) = 1 second */
+
 
 
 BEACON_RSSI_ADDR_T beacons[3];
@@ -42,20 +45,8 @@ APP_TIMER_DEF(beacon_refresh_id);
  */
 static void on_adv_evt(ble_adv_evt_t ble_adv_evt)
 {
-    uint32_t err_code;
-
     switch (ble_adv_evt)
     {
-        case BLE_ADV_EVT_IDLE:
-            APPL_LOG("ADV Event Idle. \r\n");
-            break;
-
-        case BLE_ADV_EVT_PEER_ADDR_REQUEST:
-            APPL_LOG("Peer Address request event. \r\n");
-            err_code = ble_advertising_peer_addr_reply(&beacons[min_index].address);
-            APP_ERROR_CHECK(err_code);
-            break;
-
         default:
             break;
     }
@@ -72,30 +63,40 @@ void advertising_init(uint8_t opcode, uint8_t * param, uint8_t param_length)
     ble_advdata_t               advdata;
     ble_adv_modes_config_t      options = {0};
     ble_advdata_manuf_data_t    manuf_data;
-    uint8_t                     payload[12];
+    uint8_t                     payload[15];
     uint8_t                     size_of_payload;
 
     APPL_LOG("Calling ADV init. \r\n");
     memset(&advdata, 0, sizeof(advdata));
 
     /** Select the beacon to which we have to send data.
-     *  Send a directed ADV to that beacon, so only that beacon
+     *  Send the beacon ID as part of the packet, so only that beacon
      *  would need to process it.
      */
     if(opcode == 0)
     {
         payload[0] = SEND_NO_DATA;
-        payload[1] = (source_id >> 8) & 0x00FF;
-        payload[2] = source_id & 0x00FF;
-        size_of_payload = 3;
+        payload[1] = (beacons[min_index].beacon_id >> 8) & 0x00FF;
+        payload[2] = beacons[min_index].beacon_id & 0x00FF;
+        payload[3] = (source_id >> 8) & 0x00FF;
+        payload[4] = source_id & 0x00FF;
+        size_of_payload = 5;
+
+        /* Send out a beacon infinitely */
+        options.ble_adv_fast_timeout  = 0;
     }
     else
     {
         payload[0] = (SEND_DATA << 7) | (opcode & 0x7F);
-        payload[1] = (source_id >> 8) & 0x00FF;
-        payload[2] = source_id & 0x00FF;
-        memcpy(&payload[3], param, param_length);
-        size_of_payload = param_length + 3;
+        payload[1] = (beacons[min_index].beacon_id >> 8) & 0x00FF;
+        payload[2] = beacons[min_index].beacon_id & 0x00FF;
+        payload[3] = (source_id >> 8) & 0x00FF;
+        payload[4] = source_id & 0x00FF;
+        memcpy(&payload[5], param, param_length);
+        size_of_payload = param_length + 5;
+
+        /* Send the information out once */
+        options.ble_adv_fast_timeout  = BLE_ADV_FAST_TIMEOUT;
     }
 
     manuf_data.company_identifier = (MANUFACTURER_ID_TALENTICA_MSB << 8) | (MANUFACTURER_ID_TALENTICA_LSB);
@@ -105,11 +106,8 @@ void advertising_init(uint8_t opcode, uint8_t * param, uint8_t param_length)
     advdata.flags = BLE_GAP_ADV_FLAGS_LE_ONLY_GENERAL_DISC_MODE;
     advdata.p_manuf_specific_data = &manuf_data;
 
-    options.ble_adv_whitelist_enabled     = BLE_ADV_WHITELIST_DISABLED;
-    options.ble_adv_directed_enabled      = BLE_ADV_DIRECTED_ENABLED;
-    options.ble_adv_directed_slow_enabled = BLE_ADV_DIRECTED_SLOW_DISABLED;
-    options.ble_adv_fast_enabled          = BLE_ADV_FAST_DISABLED;
-    options.ble_adv_slow_enabled          = BLE_ADV_SLOW_DISABLED;
+    options.ble_adv_fast_enabled  = BLE_ADV_FAST_ENABLED;
+    options.ble_adv_fast_interval = BLE_ADV_FAST_INTERVAL;
 
     err_code = ble_advertising_init(&advdata, NULL, &options, on_adv_evt, NULL);
     APP_ERROR_CHECK(err_code);
@@ -121,7 +119,7 @@ void advertising_start(void)
     uint32_t err_code;
 
     APPL_LOG("Calling ADV start. \r\n");
-    err_code = ble_advertising_start(BLE_ADV_MODE_DIRECTED);
+    err_code = ble_advertising_start(BLE_ADV_MODE_FAST);
     APP_ERROR_CHECK(err_code);
 }
 
@@ -363,8 +361,17 @@ void on_ble_evt(ble_evt_t * p_ble_evt)
             break;
         }
 
+
         case BLE_GAP_EVT_TIMEOUT:
+        {
+            if(p_gap_evt->params.timeout.src == BLE_GAP_TIMEOUT_SRC_ADVERTISING)
+            {
+                APPL_LOG("Advertisement timed out. Restarting empty beacon...\r\n");
+                advertising_init(0, NULL, 0);
+            }
             break;
+        }
+
 
         default:
             break;
@@ -443,11 +450,11 @@ void mesh_transport_run(void)
         else if(isMinChanged)
         {
             /* If a new beacon is closest now, start talking to that
-             * one instead. Change the target device for directed ADV.
+             * one instead. Change the beacon ID which is part of the packet.
+             * ADV is already running so we don't need to restart it.
              */
             isMinChanged = false;
-            advertising_stop();
-            advertising_start();
+            advertising_init(0, NULL, 0);
         }
     }
 }
