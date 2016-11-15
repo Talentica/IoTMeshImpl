@@ -1,2 +1,13 @@
 _build/
 .settings/
+codegentemp/
+CortexM0/
+Export/
+Generated_Source/
+Mesh.cycdx
+Mesh.cyfit
+Mesh.cyprj.UdayA
+Mesh.rpt
+Mesh.svd
+Mesh_timing
+Mesh.cywrk.UdayA

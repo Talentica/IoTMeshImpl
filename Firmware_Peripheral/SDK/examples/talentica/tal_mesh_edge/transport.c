@@ -17,11 +17,21 @@
 
 #define MANUFACTURER_ID_TALENTICA_MSB   (0x55)
 #define MANUFACTURER_ID_TALENTICA_LSB   (0xAA)
-#define SEND_NO_DATA                    (0)
-#define SEND_DATA                       (1)
+
 #define BLE_ADV_FAST_INTERVAL           (1280)     /*  Fast advertising interval (in units of 0.625 ms) = 0.8 seconds */
 #define BLE_ADV_FAST_TIMEOUT            (1)        /*  Fast advertising timeout (in units of 1 s) = 1 second */
 
+#define SEND_NO_DATA                    (0)
+#define SEND_DATA                       (1)
+
+#define DEVICE_MESH                     (0)
+#define DEVICE_PERIPHERAL               (1)
+
+#define BIT_POS_IS_DATA                 (7)
+#define BIT_POS_IS_PERIPHERAL           (6)
+#define MASK_IS_DATA                    (0x80)
+#define MASK_IS_PERIPHERAL              (0x40)
+#define MASK_OPCODE                     (0x3F)
 
 
 BEACON_RSSI_ADDR_T beacons[3];
@@ -75,7 +85,7 @@ void advertising_init(uint8_t opcode, uint8_t * param, uint8_t param_length)
      */
     if(opcode == 0)
     {
-        payload[0] = SEND_NO_DATA;
+        payload[0] = (SEND_NO_DATA << BIT_POS_IS_DATA) | (DEVICE_PERIPHERAL << BIT_POS_IS_PERIPHERAL);
         payload[1] = (beacons[min_index].beacon_id >> 8) & 0x00FF;
         payload[2] = beacons[min_index].beacon_id & 0x00FF;
         payload[3] = (source_id >> 8) & 0x00FF;
@@ -87,7 +97,7 @@ void advertising_init(uint8_t opcode, uint8_t * param, uint8_t param_length)
     }
     else
     {
-        payload[0] = (SEND_DATA << 7) | (opcode & 0x7F);
+        payload[0] = (SEND_DATA << BIT_POS_IS_DATA) | (DEVICE_PERIPHERAL << BIT_POS_IS_PERIPHERAL) | (opcode & MASK_OPCODE);
         payload[1] = (beacons[min_index].beacon_id >> 8) & 0x00FF;
         payload[2] = beacons[min_index].beacon_id & 0x00FF;
         payload[3] = (source_id >> 8) & 0x00FF;
@@ -267,7 +277,7 @@ void on_ble_evt(ble_evt_t * p_ble_evt)
                     break;
                 }
 
-                if((data[sizeof(field_flags)] + sizeof(field_flags)) != data_len)
+                if((data[sizeof(field_flags)] + sizeof(field_flags) + 1) != data_len)
                 {
                     /* Length check: Packet length is invalid */
                     break;
@@ -276,8 +286,14 @@ void on_ble_evt(ble_evt_t * p_ble_evt)
                 /* Index of the opcode field for keep-alive (no data) beacons. */
                 index = sizeof(field_flags) + 1 + sizeof(field_manuf_data);
 
+                /* Don't confuse this device's packet with mesh beacon packet */
+                if((data[index] & MASK_IS_PERIPHERAL) == (DEVICE_PERIPHERAL << BIT_POS_IS_PERIPHERAL))
+                {
+                    break;
+                }
+
                 /* If the beacon is just a keep-alive (no data), extract the beacon ID. */
-                if((data[index] & 0x80) == SEND_NO_DATA)
+                if((data[index] & MASK_IS_DATA) == SEND_NO_DATA)
                 {
                     beacon_id = (data[index + 1] << 8) | data[index + 2];
                 }
@@ -285,7 +301,7 @@ void on_ble_evt(ble_evt_t * p_ble_evt)
                 {
                     uint16_t msg_source_id      = (data[index + 1] << 8) | data[index + 2];
                     uint16_t msg_destination_id = (data[index + 3] << 8) | data[index + 4];
-                    uint8_t opcode = data[index] & 0x7F;
+                    uint8_t opcode = data[index] & MASK_OPCODE;
                     uint8_t length = data_len - index - 5;
 
                     if(msg_destination_id != source_id)

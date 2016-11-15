@@ -13,11 +13,11 @@
  *  Set messages - that set a state (control value)
  *  Status messages - that respond to a Get query
  */
-#define OPCODE_LOCATION_GET             (0x7A)  /* Get the location of a peer device */
-#define OPCODE_LOCATION_STATUS          (0x7B)  /* Send current location status of this device */
+#define OPCODE_LOCATION_GET             (0x3A)  /* Get the location of a peer device */
+#define OPCODE_LOCATION_STATUS          (0x3B)  /* Send current location status of this device */
 
 
-static uint16_t destination_id = 0xFFBB;
+static uint16_t destination_id = 0xFFAA;
 
 
 /** @brief Function is the trigger point to send data over mesh.
