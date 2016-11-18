@@ -34,6 +34,7 @@
 #define MASK_OPCODE                     (0x3F)
 
 #define LIST_SIZE                       (10)
+#define PERIPHERAL_PRESENCE_TIMEOUT_S   (5)
 
 /*************************Global Variables***********************************/
 typedef struct 
@@ -62,7 +63,7 @@ static void AddDeviceToList(uint16 incomingSourceId)
         {
             devicesCloseBy[counter].isEntryValid = true;
             devicesCloseBy[counter].sourceId = incomingSourceId;
-            devicesCloseBy[counter].timeCounter = 10;
+            devicesCloseBy[counter].timeCounter = PERIPHERAL_PRESENCE_TIMEOUT_S;
             break;
         }
     }
@@ -93,8 +94,17 @@ void TimerIsr(void)
      * When a device counter expires, erase it from the list.
      */
     uint8 counter;
+    static uint8 timer = 0;
     
-    printf("Timer\r\n");
+    timer++;
+    if(timer >= 10)
+    {
+        timer = 0;
+    }
+    else
+    {
+        return;
+    }
     
     /* Every second, trigger a non-connectable beacon */
     isBeaconFlagSet = true;
@@ -120,6 +130,23 @@ void TimerIsr(void)
 }
 
 
+/* Data consists of Opcode (1) + Source ID (2) + Destination ID (2) + Parameter
+ *
+ */
+void SendMeshPacket(uint8 opcode, const uint8 * data, uint8 length)
+{
+    CYMESH_VARIABLE_DATA_T packet;
+    
+    packet.data[0] = opcode & MASK_OPCODE;
+    memcpy(&packet.data[1], data, length);
+    packet.len = length;
+    
+    CyMesh_VendorSpecificSendDataUnreliable(packet, 
+                                            CYMESH_MDL_VENDOR_SPECIFIC_COMP_3, 
+                                            CYMESH_MDL_VENDOR_SPECIFIC_COMP_3_MDLIDX);
+}
+
+
 void SendDataBeacon(const uint8 * payload, uint8 payloadLength)
 {
     uint8 data[20];
@@ -127,7 +154,7 @@ void SendDataBeacon(const uint8 * payload, uint8 payloadLength)
     
     /* Flags */
     data[0] = CYBLE_GAP_ADV_FLAGS_PACKET_LENGTH;
-    data[1] = CYBLE_GAP_ADV_FLAGS;
+    data[1] = CYBLE_GAP_ADV_FLAGS + 1;  /* TODO: This is a stack defect */
     data[2] = CYBLE_GAP_ADV_FLAG_LE_GENERAL_DISC_MODE | CYBLE_GAP_ADV_FLAG_BR_EDR_NOT_SUPPORTED;
     
     /* Manufacturer data */
@@ -143,7 +170,7 @@ void SendDataBeacon(const uint8 * payload, uint8 payloadLength)
     length = payloadLength + 9;
     
     /* Call the mesh API to send custom beacon */
-//    CyMesh_SendBeacon(data, length);
+    CyMesh_BearerSendData(data, length, CYMESH_BEARER_CUSTOM_ADV, 1, false, true);
 }
 
 
@@ -154,7 +181,7 @@ void SendEmptyBeacon(void)
     
     /* Flags */
     data[0] = CYBLE_GAP_ADV_FLAGS_PACKET_LENGTH;
-    data[1] = CYBLE_GAP_ADV_FLAGS;
+    data[1] = CYBLE_GAP_ADV_FLAGS + 1;  /* TODO: This is a stack defect */
     data[2] = CYBLE_GAP_ADV_FLAG_LE_GENERAL_DISC_MODE | CYBLE_GAP_ADV_FLAG_BR_EDR_NOT_SUPPORTED;
     
     /* Manufacturer data */
@@ -168,25 +195,7 @@ void SendEmptyBeacon(void)
     
     length = 10;
     
-    /* Call the mesh API to send custom beacon */
-//    CyMesh_SendBeacon(data, length);
-}
-
-
-/* Data consists of Opcode (1) + Source ID (2) + Destination ID (2) + Parameter
- *
- */
-void SendMeshPacket(uint8 opcode, const uint8 * data, uint8 length)
-{
-    CYMESH_VARIABLE_DATA_T packet;
-    
-    packet.data[0] = opcode & MASK_OPCODE;
-    memcpy(&packet.data[1], data, length);
-    packet.len = length;
-    
-    CyMesh_VendorSpecificSendDataUnreliable(packet, 
-                                            CYMESH_MODEL_VENDOR_SPECIFIC_COMPONENT_INDEX, 
-                                            CYMESH_MODEL_VENDOR_SPECIFIC_MODEL_INDEX);
+    CyMesh_BearerSendData(data, length, CYMESH_BEARER_CUSTOM_ADV, 1, false, true);  
 }
 
 
@@ -204,8 +213,10 @@ void SendMeshPacket(uint8 opcode, const uint8 * data, uint8 length)
 *  \return None
 *  
 ******************************************************************************/
-void MeshEventHandler(uint32 event, void * eventParam,uint8 compIndex, uint8 modelIndex)
+void MeshEventHandler(uint32 event, void * eventParam, uint8 compIndex, uint8 modelIndex)
 {
+    printf("Mesh event @ %d, %d.\r\n", compIndex, modelIndex);
+    
 	/* Handle Mesh specific events. The eventParam depends on event raised */
 	switch(event)
 	{
@@ -340,7 +351,7 @@ void GenericEventHandler(uint32 event, void * eventParam)
                     }
                     else
                     {
-                        devicesCloseBy[index].timeCounter = 10;
+                        devicesCloseBy[index].timeCounter = PERIPHERAL_PRESENCE_TIMEOUT_S;
                     }
                 }
                 else
@@ -358,7 +369,6 @@ void GenericEventHandler(uint32 event, void * eventParam)
                     SendMeshPacket(opcode, &data[index + 3], length);
                 }
             }
-            
             break;
         }
         
@@ -368,11 +378,9 @@ void GenericEventHandler(uint32 event, void * eventParam)
 	}
 }
 
-
 void MySwitchIsr(void)
 {
     /* Add custom code here if required */
-    
     
     /* Clear interrupt */
     SW2_ClearInterrupt();
@@ -400,10 +408,11 @@ void InitializeSystem(void)
     
 	#ifdef CYMESH_DEBUG_ENABLED
 		UART_Start();
-		printf("BLE Mesh example. \r\n");
+		printf("BLE Mesh example.\r\n");
 	#endif
     
 	/* Start BLE Mesh and register all relevant functions */
+    CyMesh_varInit();
     CyMesh_Start(GenericEventHandler, MeshEventHandler);
 	
 	/* Call CyMesh_ProcessEvents once to enable the Mesh Stack*/
@@ -412,6 +421,9 @@ void InitializeSystem(void)
 	/* Register the application timing function with Mesh protocol Stack timer.
      * The timer would have a period of 10 ms, and we need 1 second period for 
      * the callback.
+     * Note: API has a defect, so any value above 200 seems to make no effect.
+     * Hence, we are using a software divider in the ISR itself to get the 
+     * desired time value.
      */
 	CyMesh_TimerRegisterCallback(0, TimerIsr, 100);
 	

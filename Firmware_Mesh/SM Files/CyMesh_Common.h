@@ -21,6 +21,56 @@
 *******************************************************************************/
 #include <project.h>
 #include <stdbool.h>
+    
+/*******************************************************************************
+* Component-Model mappings for the User.
+* NOTE: 
+* 1) Set *_COMP_? to CYMESH_UNUSED if no model is to be mapped for given component index
+* 2) DO NOT USE component index 0, model index 0 for any model.
+* 3) Two models should not be mapped on to the same component and model index
+* 4) One component index should be mapped to only one model of the particular type. There can be 
+*    multiple models of different types on a single component upto CYMESH_MAX_MODELS_PER_COMPONENT
+*******************************************************************************/
+    
+//For Light Lightness MODEL
+#define CYMESH_MDL_LL_COMP_0  		                (CYMESH_UNUSED)     //Must be unused
+#define CYMESH_MDL_LL_COMP_0_MDLIDX                 (CYMESH_UNUSED)     //Must be unused
+                   
+#define CYMESH_MDL_LL_COMP_1  		                (1)
+#define CYMESH_MDL_LL_COMP_1_MDLIDX                 (0)
+                   
+#define CYMESH_MDL_LL_COMP_2  		                (CYMESH_UNUSED)
+#define CYMESH_MDL_LL_COMP_2_MDLIDX                 (CYMESH_UNUSED)
+                   
+#define CYMESH_MDL_LL_COMP_3            		    (CYMESH_UNUSED)
+#define CYMESH_MDL_LL_COMP_3_MDLIDX                 (CYMESH_UNUSED)
+    
+//For Generic On Off MODEL
+#define CYMESH_MDL_GenOnOff_COMP_0                  (CYMESH_UNUSED)     //Must be unused
+#define CYMESH_MDL_GenOnOff_COMP_0_MDLIDX           (CYMESH_UNUSED)     //Must be unused
+                                                    
+#define CYMESH_MDL_GenOnOff_COMP_1  		        (CYMESH_UNUSED)
+#define CYMESH_MDL_GenOnOff_COMP_1_MDLIDX           (CYMESH_UNUSED)
+                                                    
+#define CYMESH_MDL_GenOnOff_COMP_2  		        (2)
+#define CYMESH_MDL_GenOnOff_COMP_2_MDLIDX           (0)
+                                                    
+#define CYMESH_MDL_GenOnOff_COMP_3  		        (CYMESH_UNUSED)
+#define CYMESH_MDL_GenOnOff_COMP_3_MDLIDX           (CYMESH_UNUSED)
+
+//For VENDOR SPECIFIC MODEL
+#define CYMESH_MDL_VENDOR_SPECIFIC_COMP_0  		    (CYMESH_UNUSED)     //Must be unused
+#define CYMESH_MDL_VENDOR_SPECIFIC_COMP_0_MDLIDX    (CYMESH_UNUSED)     //Must be unused
+    
+#define CYMESH_MDL_VENDOR_SPECIFIC_COMP_1  		    (CYMESH_UNUSED)
+#define CYMESH_MDL_VENDOR_SPECIFIC_COMP_1_MDLIDX    (CYMESH_UNUSED)
+    
+#define CYMESH_MDL_VENDOR_SPECIFIC_COMP_2  		    (CYMESH_UNUSED)
+#define CYMESH_MDL_VENDOR_SPECIFIC_COMP_2_MDLIDX    (CYMESH_UNUSED)
+    
+#define CYMESH_MDL_VENDOR_SPECIFIC_COMP_3  		    (3)
+#define CYMESH_MDL_VENDOR_SPECIFIC_COMP_3_MDLIDX    (0)    
+    
 
 /*******************************************************************************
 * Compile Time Options
@@ -28,9 +78,9 @@
 #define CYMESH_MAX_NETWORK_KEYS                 (1)
 #define CYMESH_MAX_APPLICATION_KEYS             (2)
 #define CYMESH_MAX_FRIENDS_PER_NETWORK          (4)
-#define CYMESH_MAX_SUBSCRIPTION_ADDRESSES       (3)
+#define CYMESH_MAX_SUBSCRIPTION_ADDRESSES       (11)
 
-#define CYMESH_NUMBER_OF_COMPONENTS             (3)
+#define CYMESH_NUMBER_OF_COMPONENTS             (4)
 #define CYMESH_MAX_MODELS_PER_COMPONENT         (2)
     
 #define CYMESH_MAX_MESH_PACKET_SIZE             (31u)
@@ -55,6 +105,41 @@
 #define CYMESH_INVALID_COMPONENT_INDEX          (0xFF)
     
 #define CYMESH_NUMBER_OF_TRIPLETS_PER_MESSAGE   (0x01)
+    
+/*******************************************************************************
+* Enumerations
+*******************************************************************************/
+
+#define CYMESH_UNUSED   CYMESH_INVALID_COMPONENT_INDEX
+
+extern uint8  cyMesh_Model_VenSp_Comp0;
+extern uint8  cyMesh_Model_VenSp_Comp0_MdlIdx;
+extern uint8  cyMesh_Model_VenSp_Comp1;
+extern uint8  cyMesh_Model_VenSp_Comp1_MdlIdx;
+extern uint8  cyMesh_Model_VenSp_Comp2;
+extern uint8  cyMesh_Model_VenSp_Comp2_MdlIdx;
+extern uint8  cyMesh_Model_VenSp_Comp3;
+extern uint8  cyMesh_Model_VenSp_Comp3_MdlIdx;    
+    
+extern uint8  cyMesh_Model_LL_Comp0;
+extern uint8  cyMesh_Model_LL_Comp0_MdlIdx;
+extern uint8  cyMesh_Model_LL_Comp1;
+extern uint8  cyMesh_Model_LL_Comp1_MdlIdx;
+extern uint8  cyMesh_Model_LL_Comp2;
+extern uint8  cyMesh_Model_LL_Comp2_MdlIdx;
+extern uint8  cyMesh_Model_LL_Comp3;
+extern uint8  cyMesh_Model_LL_Comp3_MdlIdx;
+    
+extern uint8  cyMesh_Model_GenOnOff_Comp0;
+extern uint8  cyMesh_Model_GenOnOff_Comp0_MdlIdx;
+extern uint8  cyMesh_Model_GenOnOff_Comp1;
+extern uint8  cyMesh_Model_GenOnOff_Comp1_MdlIdx;
+extern uint8  cyMesh_Model_GenOnOff_Comp2;
+extern uint8  cyMesh_Model_GenOnOff_Comp2_MdlIdx;
+extern uint8  cyMesh_Model_GenOnOff_Comp3;
+extern uint8  cyMesh_Model_GenOnOff_Comp3_MdlIdx;
+    
+    
 /*******************************************************************************
 * Enumerations
 *******************************************************************************/
@@ -421,9 +506,18 @@ typedef enum
     CYMESH_MESSAGE_LIGHT_XYL_TARGET_STATUS                  = 0x8311,
 
 	//roit: Added for vendor specific command
-    CYMESH_MESSAGE_VENDOR_SPECIFIC_UNREL_SET				=0x00FF0001,
-	CYMESH_MESSAGE_VENDOR_SPECIFIC_REL_SET					=0x00FF0002,
-	CYMESH_MESSAGE_VENDOR_SPECIFIC_STATUS					=0x00FF0003
+    CYMESH_MESSAGE_VENDOR_SPECIFIC_UNREL_SET_1				=0x00FF0001,
+	CYMESH_MESSAGE_VENDOR_SPECIFIC_REL_SET_1				=0x00FF0002,
+	CYMESH_MESSAGE_VENDOR_SPECIFIC_STATUS_1					=0x00FF0003,
+    
+    CYMESH_MESSAGE_VENDOR_SPECIFIC_UNREL_SET_2				=0x00FF0004,
+	CYMESH_MESSAGE_VENDOR_SPECIFIC_REL_SET_2				=0x00FF0005,
+	CYMESH_MESSAGE_VENDOR_SPECIFIC_STATUS_2					=0x00FF0006,
+    
+    CYMESH_MESSAGE_VENDOR_SPECIFIC_UNREL_SET_3				=0x00FF0007,
+	CYMESH_MESSAGE_VENDOR_SPECIFIC_REL_SET_3				=0x00FF0008,
+	CYMESH_MESSAGE_VENDOR_SPECIFIC_STATUS_3					=0x00FF0009,
+    
 } CYMESH_MESSAGE_T;
 
 
@@ -899,6 +993,8 @@ CYMESH_API_RETURN_T CyMesh_SecurityUpdateCredentials(void);
 * 
 ******************************************************************************/
 void CyMesh_ConfigInfoUpdate(void);
+
+void CyMesh_varInit(void);
 
 #endif      /* #ifndef _CYMESH_COMMON_H */
 

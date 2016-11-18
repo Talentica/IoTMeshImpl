@@ -31,10 +31,8 @@
 #define CYMESH_MODEL_GENERIC_ON_OFF_SERVER           (1)
 #define CYMESH_MODEL_GENERIC_ON_OFF_CLIENT           (1)
 
-
-
-#define CYMESH_MODEL_GENERIC_ON_OFF_COMPONENT_INDEX  (1)
-#define CYMESH_MODEL_GENERIC_ON_OFF_MODEL_INDEX      (0)
+//#define CYMESH_MODEL_GENERIC_ON_OFF_COMPONENT_INDEX  (1)
+//#define CYMESH_MODEL_GENERIC_ON_OFF_MODEL_INDEX      (0)
 
 
 /*******************************************************************************
@@ -47,7 +45,7 @@ extern void CyMesh_GenericOnOffModelStart(void);
 extern void CyMesh_GenericOnOffModelSetPublishAddr(uint8 pubAddr, uint8 compIndex, uint8 modelIndex);    
 extern void CyMesh_GenericOnOffModelSetOnOff(bool state, uint8 transitionTime, uint8 compIndex, uint8 modelIndex);
 extern void CyMesh_GenericOnOffModelSetOnOffUnreliable(bool state, uint8 transitionTime, uint8 compIndex, uint8 modelIndex);
-extern void CyMesh_GenericOnOffModelGetStatus(void);
+extern void CyMesh_GenericOnOffModelGetStatus(uint8 compIndex, uint8 modelIndex);
 #endif  /* #if CYMESH_MODEL_GENERIC_ON_OFF_CLIENT */
 
 

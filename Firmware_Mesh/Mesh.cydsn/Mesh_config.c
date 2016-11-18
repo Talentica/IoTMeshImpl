@@ -76,10 +76,6 @@ void DefineNodeinfo(void)
         }
     }
 	
-	#ifdef CYMESH_DEBUG_ENABLED
-		printf("\n\r Light Node ");
-	#endif
-		
 	/* Assign Device UUID */
 	for(i=0;i<CYMESH_CONFIG_DEVICE_UUID_LEN;i++)
 	{
@@ -134,7 +130,6 @@ void DefineNetInfo(void)
 {
 	if(cyMesh_ConfigInfoRam.isConfigurationValid != true)
 	{
-        printf("config valid\r\n");
 	    cyMesh_ConfigInfoRam.deviceInfo.deviceDefaultTtl = 10;
 	    memcpy(cyMesh_ConfigInfoRam.deviceInfo.deviceKey, deviceKey, 16);
 

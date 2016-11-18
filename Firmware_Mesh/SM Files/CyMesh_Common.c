@@ -326,5 +326,40 @@ void CyMesh_SMHandleTimer(void)
 	#endif
 }
 
+/******************************************************************************
+* Initializer for models *
+*******************************************************************************/
+void CyMesh_varInit(void)
+{
+    //Vendor Specific Model
+    cyMesh_Model_VenSp_Comp0        = CYMESH_MDL_VENDOR_SPECIFIC_COMP_0;
+    cyMesh_Model_VenSp_Comp0_MdlIdx = CYMESH_MDL_VENDOR_SPECIFIC_COMP_0_MDLIDX;
+    cyMesh_Model_VenSp_Comp1        = CYMESH_MDL_VENDOR_SPECIFIC_COMP_1;
+    cyMesh_Model_VenSp_Comp1_MdlIdx = CYMESH_MDL_VENDOR_SPECIFIC_COMP_1_MDLIDX;
+    cyMesh_Model_VenSp_Comp2        = CYMESH_MDL_VENDOR_SPECIFIC_COMP_2;
+    cyMesh_Model_VenSp_Comp2_MdlIdx = CYMESH_MDL_VENDOR_SPECIFIC_COMP_2_MDLIDX;
+    cyMesh_Model_VenSp_Comp3        = CYMESH_MDL_VENDOR_SPECIFIC_COMP_3;
+    cyMesh_Model_VenSp_Comp3_MdlIdx = CYMESH_MDL_VENDOR_SPECIFIC_COMP_3_MDLIDX;
+    
+    //Light Lightness model
+    cyMesh_Model_LL_Comp0        = CYMESH_MDL_LL_COMP_0;
+    cyMesh_Model_LL_Comp0_MdlIdx = CYMESH_MDL_LL_COMP_0_MDLIDX;
+    cyMesh_Model_LL_Comp1        = CYMESH_MDL_LL_COMP_1;
+    cyMesh_Model_LL_Comp1_MdlIdx = CYMESH_MDL_LL_COMP_1_MDLIDX;
+    cyMesh_Model_LL_Comp2        = CYMESH_MDL_LL_COMP_2;
+    cyMesh_Model_LL_Comp2_MdlIdx = CYMESH_MDL_LL_COMP_2_MDLIDX;
+    cyMesh_Model_LL_Comp3        = CYMESH_MDL_LL_COMP_3;
+    cyMesh_Model_LL_Comp3_MdlIdx = CYMESH_MDL_LL_COMP_3_MDLIDX;
+                                      
+    //Generic OnOff model
+    cyMesh_Model_GenOnOff_Comp0        = CYMESH_MDL_GenOnOff_COMP_0;
+    cyMesh_Model_GenOnOff_Comp0_MdlIdx = CYMESH_MDL_GenOnOff_COMP_0_MDLIDX;
+    cyMesh_Model_GenOnOff_Comp1        = CYMESH_MDL_GenOnOff_COMP_1;
+    cyMesh_Model_GenOnOff_Comp1_MdlIdx = CYMESH_MDL_GenOnOff_COMP_1_MDLIDX;
+    cyMesh_Model_GenOnOff_Comp2        = CYMESH_MDL_GenOnOff_COMP_2;
+    cyMesh_Model_GenOnOff_Comp2_MdlIdx = CYMESH_MDL_GenOnOff_COMP_2_MDLIDX;
+    cyMesh_Model_GenOnOff_Comp3        = CYMESH_MDL_GenOnOff_COMP_3;
+    cyMesh_Model_GenOnOff_Comp3_MdlIdx = CYMESH_MDL_GenOnOff_COMP_3_MDLIDX;
+}
 
 /* [] END OF FILE */

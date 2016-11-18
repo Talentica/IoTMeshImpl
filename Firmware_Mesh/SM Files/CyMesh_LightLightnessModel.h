@@ -31,8 +31,8 @@
 #define CYMESH_MODEL_LIGHT_LIGHTNESS_SERVER           (1)
 #define CYMESH_MODEL_LIGHT_LIGHTNESS_CLIENT           (1)
 
-#define CYMESH_MODEL_LIGHT_LIGHTNESS_COMPONENT_INDEX  (1)
-#define CYMESH_MODEL_LIGHT_LIGHTNESS_MODEL_INDEX      (1)
+//#define CYMESH_MODEL_LIGHT_LIGHTNESS_COMPONENT_INDEX  (1)
+//#define CYMESH_MODEL_LIGHT_LIGHTNESS_MODEL_INDEX      (1)
 
 /*******************************************************************************
 * Externed functions

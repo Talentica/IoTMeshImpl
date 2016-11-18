@@ -80,6 +80,7 @@ typedef enum
 	CYMESH_BEARER_PB_GATT,
 	#endif
 	
+    CYMESH_BEARER_CUSTOM_ADV,                   /* Provision to define fully custom ADV packet */
 	CYMESH_BEARER_BEACON_UNDEFINED = 0xFF,
 	
 } CYMESH_BEARER_PACKET_TYPE_T;
