@@ -20,7 +20,7 @@
 #endif
 
 #ifndef NRF_LOG_USES_COLORS
-    #define NRF_LOG_USES_COLORS 1
+    #define NRF_LOG_USES_COLORS 0
 #endif
 
 #if NRF_LOG_USES_COLORS == 1

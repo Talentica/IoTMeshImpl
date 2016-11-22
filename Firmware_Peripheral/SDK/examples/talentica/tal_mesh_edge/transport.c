@@ -18,7 +18,7 @@
 #define MANUFACTURER_ID_TALENTICA_MSB   (0x55)
 #define MANUFACTURER_ID_TALENTICA_LSB   (0xAA)
 
-#define BLE_ADV_FAST_INTERVAL           (1280)     /*  Fast advertising interval (in units of 0.625 ms) = 0.8 seconds */
+#define BLE_ADV_FAST_INTERVAL           (1440)     /*  Fast advertising interval (in units of 0.625 ms) = 0.9 seconds */
 #define BLE_ADV_FAST_TIMEOUT            (1)        /*  Fast advertising timeout (in units of 1 s) = 1 second */
 
 #define SEND_NO_DATA                    (0)
@@ -33,17 +33,23 @@
 #define MASK_IS_PERIPHERAL              (0x40)
 #define MASK_OPCODE                     (0x3F)
 
+#define BEACON_PRESENCE_TIMEOUT_S       (5)       /* Timeout in seconds for beacon to be in list */
 
 BEACON_RSSI_ADDR_T beacons[3];
+static volatile uint8_t time_counter[3];
+
 static int8_t max_rssi = 0, min_rssi = -127;
 static uint8_t max_index = 0;
 uint8_t min_index = 0;
 static bool isMinChanged = false;
-uint8_t numberOfElements = 0;
-static uint8_t time_counter[3] = {10, 10, 10};  /* Given 1 second period, 10 second countdown */
+volatile uint8_t numberOfElements = 0;
 
+static ble_advdata_t        advdata = {0};
+ble_adv_modes_config_t      options = {0};
+ble_advdata_manuf_data_t    manuf_data;
+uint8_t                     payload[15];
 
-static uint16_t source_id = 0xFFAA;
+static uint16_t source_id = DEVICE_2_SOURCE_ID;
 APP_TIMER_DEF(beacon_refresh_id);
 
 
@@ -63,6 +69,25 @@ static void on_adv_evt(ble_adv_evt_t ble_adv_evt)
 }
 
 
+void advertising_start(void)
+{
+    uint32_t err_code;
+
+    err_code = ble_advertising_start(BLE_ADV_MODE_FAST);
+    APP_ERROR_CHECK(err_code);
+}
+
+
+void advertising_stop(void)
+{
+    uint32_t err_code;
+
+    err_code = sd_ble_gap_adv_stop();
+    APP_ERROR_CHECK(err_code);
+    m_adv_mode_current = BLE_ADV_MODE_IDLE;
+}
+
+
 /** @brief Function to update advertisement packet data.
  *
  *  Need to write about parameters also.
@@ -70,14 +95,20 @@ static void on_adv_evt(ble_adv_evt_t ble_adv_evt)
 void advertising_init(uint8_t opcode, uint8_t * param, uint8_t param_length)
 {
     uint32_t                    err_code;
-    ble_advdata_t               advdata;
-    ble_adv_modes_config_t      options = {0};
-    ble_advdata_manuf_data_t    manuf_data;
-    uint8_t                     payload[15];
     uint8_t                     size_of_payload;
 
-    APPL_LOG("Calling ADV init. \r\n");
-    memset(&advdata, 0, sizeof(advdata));
+    /* In the uint16_encode() function called internally, the MSB and LSB are swapped */
+    manuf_data.company_identifier = (MANUFACTURER_ID_TALENTICA_MSB) | (MANUFACTURER_ID_TALENTICA_LSB << 8);
+    manuf_data.data.p_data = payload;
+
+    advdata.flags = BLE_GAP_ADV_FLAGS_LE_ONLY_GENERAL_DISC_MODE;
+    advdata.p_manuf_specific_data = &manuf_data;
+
+    options.ble_adv_whitelist_enabled = BLE_ADV_WHITELIST_DISABLED;
+    options.ble_adv_directed_enabled  = BLE_ADV_DIRECTED_DISABLED;
+    options.ble_adv_slow_enabled      = BLE_ADV_SLOW_DISABLED;
+    options.ble_adv_fast_enabled      = BLE_ADV_FAST_ENABLED;
+    options.ble_adv_fast_interval     = BLE_ADV_FAST_INTERVAL;
 
     /** Select the beacon to which we have to send data.
      *  Send the beacon ID as part of the packet, so only that beacon
@@ -93,7 +124,9 @@ void advertising_init(uint8_t opcode, uint8_t * param, uint8_t param_length)
         size_of_payload = 5;
 
         /* Send out a beacon infinitely */
-        options.ble_adv_fast_timeout  = 0;
+        options.ble_adv_fast_timeout = 0;
+
+        manuf_data.data.size = size_of_payload;
     }
     else
     {
@@ -105,42 +138,19 @@ void advertising_init(uint8_t opcode, uint8_t * param, uint8_t param_length)
         memcpy(&payload[5], param, param_length);
         size_of_payload = param_length + 5;
 
+        APPL_LOG("Sending data\r\n");
+
         /* Send the information out once */
         options.ble_adv_fast_timeout  = BLE_ADV_FAST_TIMEOUT;
+
+        manuf_data.data.size = size_of_payload;
+
+        advertising_stop();
     }
-
-    manuf_data.company_identifier = (MANUFACTURER_ID_TALENTICA_MSB << 8) | (MANUFACTURER_ID_TALENTICA_LSB);
-    manuf_data.data.p_data = payload;
-    manuf_data.data.size = size_of_payload;
-
-    advdata.flags = BLE_GAP_ADV_FLAGS_LE_ONLY_GENERAL_DISC_MODE;
-    advdata.p_manuf_specific_data = &manuf_data;
-
-    options.ble_adv_fast_enabled  = BLE_ADV_FAST_ENABLED;
-    options.ble_adv_fast_interval = BLE_ADV_FAST_INTERVAL;
 
     err_code = ble_advertising_init(&advdata, NULL, &options, on_adv_evt, NULL);
     APP_ERROR_CHECK(err_code);
-}
-
-
-void advertising_start(void)
-{
-    uint32_t err_code;
-
-    APPL_LOG("Calling ADV start. \r\n");
-    err_code = ble_advertising_start(BLE_ADV_MODE_FAST);
-    APP_ERROR_CHECK(err_code);
-}
-
-
-void advertising_stop(void)
-{
-    uint32_t err_code;
-
-    err_code = sd_ble_gap_adv_stop();
-    m_adv_mode_current = BLE_ADV_MODE_IDLE;
-    APP_ERROR_CHECK(err_code);
+    advertising_start();
 }
 
 
@@ -153,9 +163,12 @@ static int8_t is_device_in_list(uint8_t *addr)
     uint8_t counter;
     for(counter = 0; counter < 3; counter++)
     {
-        if(memcmp(addr, beacons[counter].address.addr, BLE_GAP_ADDR_LEN) == 0)
+        if(beacons[counter].isRssiValid == true)
         {
-            return counter;
+            if(memcmp(addr, beacons[counter].address.addr, BLE_GAP_ADDR_LEN) == 0)
+            {
+                return counter;
+            }
         }
     }
     return -1;
@@ -215,6 +228,8 @@ static void calc_rssi_min_max(void)
     if(min_index_backup != min_index)
     {
         isMinChanged = true;
+
+        printf("New closest device is: %d. RSSI = %d.\r\n", beacons[min_index].beacon_id, beacons[min_index].rssi);
     }
 }
 
@@ -254,7 +269,7 @@ void on_ble_evt(ble_evt_t * p_ble_evt)
             {
                 /* Length included in flags field */
                 uint8_t field_flags[] = {ADV_AD_TYPE_FIELD_SIZE + AD_TYPE_FLAGS_DATA_SIZE,
-                                         BLE_GAP_AD_TYPE_FLAGS,
+                                         BLE_GAP_AD_TYPE_FLAGS + 1, /* TODO: Defect in mesh stack */
                                          BLE_GAP_ADV_FLAGS_LE_ONLY_GENERAL_DISC_MODE};
 
                 /* Length not included in manuf. data since it can be variable */
@@ -293,16 +308,23 @@ void on_ble_evt(ble_evt_t * p_ble_evt)
                 }
 
                 /* If the beacon is just a keep-alive (no data), extract the beacon ID. */
-                if((data[index] & MASK_IS_DATA) == SEND_NO_DATA)
+                if((data[index] & MASK_IS_DATA) == (SEND_NO_DATA << BIT_POS_IS_DATA))
                 {
                     beacon_id = (data[index + 1] << 8) | data[index + 2];
                 }
                 else
                 {
-                    uint16_t msg_source_id      = (data[index + 1] << 8) | data[index + 2];
-                    uint16_t msg_destination_id = (data[index + 3] << 8) | data[index + 4];
+                    uint16_t msg_beacon_id      = (data[index + 1] << 8) | data[index + 2];
+                    uint16_t msg_source_id      = (data[index + 3] << 8) | data[index + 4];
+                    uint16_t msg_destination_id = (data[index + 5] << 8) | data[index + 6];
                     uint8_t opcode = data[index] & MASK_OPCODE;
-                    uint8_t length = data_len - index - 5;
+                    uint8_t length = data_len - index - 7;
+
+                    if(msg_beacon_id != beacons[min_index].beacon_id)
+                    {
+                        /* Packet is a duplicate coming from someone else */
+                        break;
+                    }
 
                     if(msg_destination_id != source_id)
                     {
@@ -311,7 +333,7 @@ void on_ble_evt(ble_evt_t * p_ble_evt)
                     }
 
                     /* Send packet to the application */
-                    application_handler(opcode, msg_source_id, &data[index + 5], length);
+                    application_event_handler(opcode, msg_source_id, &data[index + 7], length);
 
                     /* The processing is done. No need for further checks. */
                     break;
@@ -331,7 +353,7 @@ void on_ble_evt(ble_evt_t * p_ble_evt)
                  * Also reset the countdown for this beacon.
                  */
                 beacons[position].rssi = rssi;
-                time_counter[position] = 10;
+                time_counter[position] = BEACON_PRESENCE_TIMEOUT_S;
                 calc_rssi_min_max();
             }
             else
@@ -353,7 +375,7 @@ void on_ble_evt(ble_evt_t * p_ble_evt)
                     beacons[index].isRssiValid = true;
                     beacons[index].beacon_id = beacon_id;
                     numberOfElements++;
-                    time_counter[index] = 10;
+                    time_counter[index] = BEACON_PRESENCE_TIMEOUT_S;
                     calc_rssi_min_max();
                 }
                 else
@@ -368,7 +390,7 @@ void on_ble_evt(ble_evt_t * p_ble_evt)
                         memcpy(beacons[max_index].address.addr, addr, BLE_GAP_ADDR_LEN);
                         beacons[max_index].address.addr_type = addr_type;
                         beacons[max_index].beacon_id = beacon_id;
-                        time_counter[max_index] = 10;
+                        time_counter[max_index] = BEACON_PRESENCE_TIMEOUT_S;
                         calc_rssi_min_max();
                     }
                 }
@@ -382,7 +404,6 @@ void on_ble_evt(ble_evt_t * p_ble_evt)
         {
             if(p_gap_evt->params.timeout.src == BLE_GAP_TIMEOUT_SRC_ADVERTISING)
             {
-                APPL_LOG("Advertisement timed out. Restarting empty beacon...\r\n");
                 advertising_init(0, NULL, 0);
             }
             break;
@@ -453,7 +474,10 @@ void mesh_transport_run(void)
         if(numberOfElements > 0)
         {
             advertising_init(0, NULL, 0);
-            advertising_start();
+
+            APPL_LOG("ID = %04x ********\r\n\n", source_id);
+            APPL_LOG("Keyboard menu:\r\n");
+            APPL_LOG("Press '1' to find a peer device. \r\n");
         }
     }
     else
@@ -471,6 +495,11 @@ void mesh_transport_run(void)
              */
             isMinChanged = false;
             advertising_init(0, NULL, 0);
+        }
+        else
+        {
+            /* Check user input and act */
+            mesh_application_run();
         }
     }
 }

@@ -21,15 +21,16 @@
 
 #define ADV_LOG(...)
 
+
 static bool                            m_advertising_start_pending = false; /**< Flag to keep track of ongoing operations on persistent memory. */
 
 static ble_gap_addr_t                  m_peer_address;     /**< Address of the most recently connected peer, used for direct advertising. */
-ble_advdata_t                   m_advdata;          /**< Used by the initialization function to set name, appearance, and UUIDs and advertising flags visible to peer devices. */
+ble_advdata_t                          m_advdata;          /**< Used by the initialization function to set name, appearance, and UUIDs and advertising flags visible to peer devices. */
 static ble_adv_evt_t                   m_adv_evt;          /**< Advertising event propogated to the main application. The event is either a transaction to a new advertising mode, or a request for whitelist or peer address.. */
 static ble_advertising_evt_handler_t   m_evt_handler;      /**< Handler for the advertising events. Can be initialized as NULL if no handling is implemented on in the main application. */
 static ble_advertising_error_handler_t m_error_handler;    /**< Handler for the advertising error events. */
 
-static ble_adv_mode_t                  m_adv_mode_current; /**< Variable to keep track of the current advertising mode. */
+ble_adv_mode_t                         m_adv_mode_current; /**< Variable to keep track of the current advertising mode. */
 static ble_adv_modes_config_t          m_adv_modes_config; /**< Struct to keep track of disabled and enabled advertising modes, as well as time-outs and intervals.*/
 
 static ble_gap_whitelist_t             m_whitelist;                                         /**< Struct that points to whitelisted addresses. */
@@ -67,7 +68,7 @@ static void ble_advertising_peer_address_clear()
 }
 
 
-/**@brief Function for checking if an address is non-zero. Used to determine if 
+/**@brief Function for checking if an address is non-zero. Used to determine if
  */
 static bool peer_address_exists(uint8_t const * address)
 {
@@ -114,7 +115,7 @@ uint32_t ble_advertising_init(ble_advdata_t const                 * p_advdata,
     m_advdata.include_appearance   = p_advdata->include_appearance;
     m_advdata.flags                = p_advdata->flags;
     m_advdata.short_name_len       = p_advdata->short_name_len;
-   /* 
+   /*
     if(p_advdata->uuids_complete != NULL)
     {
         m_advdata.uuids_complete = p_advdata->uuids_complete;
@@ -123,7 +124,7 @@ uint32_t ble_advertising_init(ble_advdata_t const                 * p_advdata,
     m_advdata.uuids_complete       = p_advdata->uuids_complete;
     m_advdata.uuids_more_available = p_advdata->uuids_more_available;
     m_advdata.uuids_solicited      = p_advdata->uuids_solicited;
-    
+
     if(p_advdata->p_manuf_specific_data != NULL)
     {
         m_advdata.p_manuf_specific_data   = &m_manuf_specific_data;
@@ -131,13 +132,13 @@ uint32_t ble_advertising_init(ble_advdata_t const                 * p_advdata,
         m_advdata.p_manuf_specific_data->company_identifier =
         				p_advdata->p_manuf_specific_data->company_identifier;
         m_advdata.p_manuf_specific_data->data.size = p_advdata->p_manuf_specific_data->data.size;
-        
+
         for(uint32_t i = 0; i < m_advdata.p_manuf_specific_data->data.size; i++)
         {
             m_manuf_data_array[i] = p_advdata->p_manuf_specific_data->data.p_data[i];
         }
     }
-    
+
     if(p_advdata->p_service_data_array != NULL)
     {
         m_service_data.data.p_data                   = m_service_data_array;
@@ -161,7 +162,7 @@ uint32_t ble_advertising_init(ble_advdata_t const                 * p_advdata,
         m_advdata.p_slave_conn_int->max_conn_interval = p_advdata->p_slave_conn_int->max_conn_interval;
         m_advdata.p_slave_conn_int->min_conn_interval = p_advdata->p_slave_conn_int->min_conn_interval;
     }
-    
+
     if(p_advdata->p_tx_power_level != NULL)
     {
         m_advdata.p_tx_power_level     = &m_tx_power_level;
@@ -359,6 +360,7 @@ uint32_t ble_advertising_start(ble_adv_mode_t advertising_mode)
         default:
             break;
     }
+
     if (m_adv_mode_current != BLE_ADV_MODE_IDLE)
     {
         err_code = sd_ble_gap_adv_start(&adv_params);

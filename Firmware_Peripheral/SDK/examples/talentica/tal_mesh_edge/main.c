@@ -18,6 +18,7 @@
 #include <string.h>
 #include "nordic_common.h"
 #include "nrf_sdm.h"
+#include "nrf_delay.h"
 #include "ble.h"
 #include "ble_advertising.h"
 #include "softdevice_handler.h"
@@ -36,9 +37,10 @@
 #define APP_TIMER_OP_QUEUE_SIZE    2                                  /**< Size of timer operation queues. */
 
 #define SCAN_INTERVAL              0x00A0                             /**< Determines scan interval in units of 0.625 millisecond. */
-#define SCAN_WINDOW                0x0050                             /**< Determines scan window in units of 0.625 millisecond. */
+#define SCAN_WINDOW                0x0090                             /**< Determines scan window in units of 0.625 millisecond. */
 
 
+const uint8_t leds_list[LEDS_NUMBER] = LEDS_LIST;
 static ble_gap_scan_params_t        m_scan_param;                        /**< Scan parameters requested for scanning and connection. */
 
 
@@ -104,7 +106,7 @@ static void scan_start(void)
     m_scan_param.interval     = SCAN_INTERVAL;// Scan interval.
     m_scan_param.window       = SCAN_WINDOW;  // Scan window.
     m_scan_param.p_whitelist  = NULL;         // No whitelist provided.
-    m_scan_param.timeout      = 0x0000;       // No timeout.
+    m_scan_param.timeout      = 0;            // No timeout.
 
     err_code = sd_ble_gap_scan_start(&m_scan_param);
     APP_ERROR_CHECK(err_code);
@@ -125,6 +127,13 @@ int main(void)
     // Initialize.
     APP_TIMER_INIT(APP_TIMER_PRESCALER, APP_TIMER_OP_QUEUE_SIZE, NULL);
     NRF_LOG_INIT();
+    APPL_LOG("******* Mesh peripheral. ");
+
+//    LEDS_CONFIGURE(LEDS_MASK);
+//    LEDS_OFF(1 << leds_list[0]);
+//    LEDS_OFF(1 << leds_list[1]);
+//    LEDS_OFF(1 << leds_list[2]);
+
     ble_stack_init();
     create_beacon_timer();
 
@@ -134,8 +143,10 @@ int main(void)
     for (;;)
     {
         power_manage();
-
         mesh_transport_run();
+
+//        nrf_delay_ms(500);
+//        LEDS_INVERT(1 << leds_list[0]);
     }
 }
 

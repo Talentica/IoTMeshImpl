@@ -17,13 +17,10 @@
 #define OPCODE_LOCATION_STATUS          (0x3B)  /* Send current location status of this device */
 
 
-static uint16_t destination_id = 0xFFAA;
-
-
 /** @brief Function is the trigger point to send data over mesh.
  *
  */
-void mesh_get_peer_location(void)
+static void mesh_get_peer_location(uint16_t destination_id)
 {
     uint8_t opcode = OPCODE_LOCATION_GET;
     uint8_t data[2];
@@ -55,7 +52,7 @@ static void mesh_send_current_location(uint16_t msg_destination_id)
 /** @brief Function is the main event handler for all opcodes received
  *  from the mesh network.
  */
-void application_handler(uint8_t opcode, uint16_t msg_source_id, const uint8_t * data, uint8_t length)
+void application_event_handler(uint8_t opcode, uint16_t msg_source_id, const uint8_t * data, uint8_t length)
 {
     switch(opcode)
     {
@@ -68,11 +65,49 @@ void application_handler(uint8_t opcode, uint16_t msg_source_id, const uint8_t *
         break;
 
     case OPCODE_LOCATION_STATUS:
-        APPL_LOG("Peer device's current location is: %d\r\n", (data[0] << 8) | data[1]);
+        APPL_LOG("Peer device's current location is: %04x\r\n", (data[0] << 8) | data[1]);
         break;
 
     default:
         break;
+    }
+}
+
+
+/** @brief Function to handle user input etc.
+ *
+ */
+void mesh_application_run(void)
+{
+    char input_data;
+
+    while(NRF_LOG_HAS_INPUT())
+    {
+        if(NRF_SUCCESS == NRF_LOG_READ_INPUT(&input_data))
+        {
+            if(input_data == '1')
+            {
+                APPL_LOG("Find a peer device. Which one? \r\n");
+                while(!NRF_LOG_HAS_INPUT());
+                if(NRF_SUCCESS == NRF_LOG_READ_INPUT(&input_data))
+                {
+                    APPL_LOG("%c.\r\n", input_data);
+                    switch(input_data)
+                    {
+                    case '1':
+                        mesh_get_peer_location(DEVICE_1_SOURCE_ID);
+                        break;
+
+                    case '2':
+                        mesh_get_peer_location(DEVICE_2_SOURCE_ID);
+                        break;
+
+                    default:
+                        break;
+                    }
+                }
+            }
+        }
     }
 }
 

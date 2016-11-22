@@ -253,7 +253,7 @@ flash_softdevice:
 	
 merge_s130:
 	mergehex --merge _build/nrf51422_xxac_s130.hex ../../../../../../../SoftDevices/s130_nrf51_2.0.1/s130_nrf51_2.0.1_softdevice.hex --output merged_s130.hex
-//	copy merged_s130.hex E:\
+	copy merged_s130.hex E:\
 
 merge_s110:
 	mergehex --merge _build/nrf51422_xxac_s130.hex ../../../../../../../SoftDevices/s110_nrf51_8.0.0/s110_nrf51_8.0.0_softdevice.hex --output merged_s110.hex
