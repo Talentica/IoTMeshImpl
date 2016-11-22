@@ -34,7 +34,7 @@
 #define MASK_OPCODE                     (0x3F)
 
 #define LIST_SIZE                       (10)
-#define PERIPHERAL_PRESENCE_TIMEOUT_S   (5)
+#define PERIPHERAL_PRESENCE_TIMEOUT_S   (10)
 
 /*************************Global Variables***********************************/
 typedef struct 
@@ -64,6 +64,9 @@ static void AddDeviceToList(uint16 incomingSourceId)
             devicesCloseBy[counter].isEntryValid = true;
             devicesCloseBy[counter].sourceId = incomingSourceId;
             devicesCloseBy[counter].timeCounter = PERIPHERAL_PRESENCE_TIMEOUT_S;
+            
+            printf("Adding to list. Index = %d. Device = %04x\r\n", counter, incomingSourceId);
+            
             break;
         }
     }
@@ -76,7 +79,7 @@ static int8 FindDeviceInList(uint16 incomingSourceId)
     
     for(counter = 0; counter < LIST_SIZE; counter++)
     {
-        if(devicesCloseBy[counter].isEntryValid)
+        if(devicesCloseBy[counter].isEntryValid == true)
         {
             if(devicesCloseBy[counter].sourceId == incomingSourceId)
             {
@@ -94,17 +97,9 @@ void TimerIsr(void)
      * When a device counter expires, erase it from the list.
      */
     uint8 counter;
-    static uint8 timer = 0;
     
-    timer++;
-    if(timer >= 10)
-    {
-        timer = 0;
-    }
-    else
-    {
-        return;
-    }
+    TimerInterrupt_ClearPending();
+    Timer_ClearInterrupt(Timer_INTR_MASK_TC);
     
     /* Every second, trigger a non-connectable beacon */
     isBeaconFlagSet = true;
@@ -122,11 +117,14 @@ void TimerIsr(void)
             
             if(devicesCloseBy[counter].timeCounter == 0)
             {
+                printf("Removing device @ index = %d. Device = %04x\r\n", counter, 
+                                            devicesCloseBy[counter].sourceId);
                 devicesCloseBy[counter].isEntryValid = false;
                 numberOfDevices--;
             }
         }
     }
+    
 }
 
 
@@ -140,6 +138,8 @@ void SendMeshPacket(uint8 opcode, const uint8 * data, uint8 length)
     packet.data[0] = opcode & MASK_OPCODE;
     memcpy(&packet.data[1], data, length);
     packet.len = length;
+    
+    printf("Transmit\r\n");
     
     CyMesh_VendorSpecificSendDataUnreliable(packet, 
                                             CYMESH_MDL_VENDOR_SPECIFIC_COMP_3, 
@@ -163,14 +163,14 @@ void SendDataBeacon(const uint8 * payload, uint8 payloadLength)
     data[5] = MANUFACTURER_ID_TALENTICA_MSB;
     data[6] = MANUFACTURER_ID_TALENTICA_LSB;
     data[7] = (SEND_DATA << BIT_POS_IS_DATA) | (DEVICE_MESH << BIT_POS_IS_PERIPHERAL) | (payload[0] & MASK_OPCODE);
-    data[8] = (beaconId >> 7) & 0x00FF;
+    data[8] = (beaconId >> 8) & 0x00FF;
     data[9] = beaconId & 0x00FF;
     memcpy(&data[10], &payload[1], payloadLength - 1);
     
     length = payloadLength + 9;
     
     /* Call the mesh API to send custom beacon */
-    CyMesh_BearerSendData(data, length, CYMESH_BEARER_CUSTOM_ADV, 1, false, true);
+    CyMesh_BearerSendData(data, length, CYMESH_BEARER_CUSTOM_ADV, 2, false, true);
 }
 
 
@@ -190,7 +190,7 @@ void SendEmptyBeacon(void)
     data[5] = MANUFACTURER_ID_TALENTICA_MSB;
     data[6] = MANUFACTURER_ID_TALENTICA_LSB;
     data[7] = (SEND_NO_DATA << BIT_POS_IS_DATA) | (DEVICE_MESH << BIT_POS_IS_PERIPHERAL);
-    data[8] = (beaconId >> 7) & 0x00FF;
+    data[8] = (beaconId >> 8) & 0x00FF;
     data[9] = beaconId & 0x00FF;
     
     length = 10;
@@ -215,8 +215,6 @@ void SendEmptyBeacon(void)
 ******************************************************************************/
 void MeshEventHandler(uint32 event, void * eventParam, uint8 compIndex, uint8 modelIndex)
 {
-    printf("Mesh event @ %d, %d.\r\n", compIndex, modelIndex);
-    
 	/* Handle Mesh specific events. The eventParam depends on event raised */
 	switch(event)
 	{
@@ -234,7 +232,9 @@ void MeshEventHandler(uint32 event, void * eventParam, uint8 compIndex, uint8 mo
 			CYMESH_VARIABLE_DATA_T * vend_data = (CYMESH_VARIABLE_DATA_T*) eventParam;
 			uint8 data_len = vend_data->len;
             uint8 * data = vend_data->data;
-            uint8 incomingDestinationId = (data[1] << 7) | data[2];
+            uint16 incomingDestinationId = (data[3] << 8) | data[4];
+            
+            printf("Receive\r\n");
             
             if(FindDeviceInList(incomingDestinationId) >= 0)
             {
@@ -243,6 +243,11 @@ void MeshEventHandler(uint32 event, void * eventParam, uint8 compIndex, uint8 mo
                  * Ensure that the beacon goes out only once (should be default in the API). 
                  */
                 SendDataBeacon(data, data_len);
+            }
+            else
+            {
+                /* Packet dropped */
+                printf("?????????????? packet dropped.\r\n");
             }
 		    break;
 		}
@@ -298,8 +303,8 @@ void GenericEventHandler(uint32 event, void * eventParam)
                                               MANUFACTURER_ID_TALENTICA_LSB};
 
                 uint8_t index;
-                uint8 incomingBeaconId;
-                uint8 incomingSourceId;
+                uint16 incomingBeaconId;
+                uint16 incomingSourceId;
 
                 if(memcmp(field_flags, data, sizeof(field_flags)) != 0)
                 {
@@ -338,16 +343,23 @@ void GenericEventHandler(uint32 event, void * eventParam)
                     break;
                 }
                 
-                /* If the beacon is just a keep-alive (no data), extract the beacon ID. */
+                /* If the beacon is just a keep-alive (no data), extract the source ID. */
                 if((data[index] & MASK_IS_DATA) == SEND_NO_DATA)
                 {
                     int8 index = FindDeviceInList(incomingSourceId);
                     
                     /* Either add to the list of devices closeby, or update timer */
-                    if((index == -1) && (numberOfDevices < LIST_SIZE))
+                    if(index == -1)
                     {
-                        AddDeviceToList(incomingSourceId);
-                        numberOfDevices++;
+                        if(numberOfDevices < LIST_SIZE)
+                        {
+                            AddDeviceToList(incomingSourceId);
+                            numberOfDevices++;
+                        }
+                        else
+                        {
+                            /* Drop packet */
+                        }
                     }
                     else
                     {
@@ -357,7 +369,7 @@ void GenericEventHandler(uint32 event, void * eventParam)
                 else
                 {
                     uint8_t opcode = data[index] & MASK_OPCODE;
-                    uint8_t length = data_len - index - 3;
+                    uint8_t length = data_len - index - 2;
 
                     /* If the incomingSourceId is not part of the list, drop packet */
                     if(FindDeviceInList(incomingSourceId) == -1)
@@ -408,7 +420,7 @@ void InitializeSystem(void)
     
 	#ifdef CYMESH_DEBUG_ENABLED
 		UART_Start();
-		printf("BLE Mesh example.\r\n");
+		printf("******** Mesh device. ");
 	#endif
     
 	/* Start BLE Mesh and register all relevant functions */
@@ -418,14 +430,9 @@ void InitializeSystem(void)
 	/* Call CyMesh_ProcessEvents once to enable the Mesh Stack*/
 	CyMesh_ProcessEvents();
 
-	/* Register the application timing function with Mesh protocol Stack timer.
-     * The timer would have a period of 10 ms, and we need 1 second period for 
-     * the callback.
-     * Note: API has a defect, so any value above 200 seems to make no effect.
-     * Hence, we are using a software divider in the ISR itself to get the 
-     * desired time value.
-     */
-	CyMesh_TimerRegisterCallback(0, TimerIsr, 100);
+    /* Initialize timer for regular beacon */
+    TimerInterrupt_StartEx(TimerIsr);
+    Timer_Start();
 	
 	/* Application Level node information setting. These information are must to allow
 	* proper Smart Mesh functionality, if no provisioning can be done */
@@ -440,6 +447,8 @@ void InitializeSystem(void)
     /* Assign a random value to beaconId */
     beaconId = (*(uint32 *)CYREG_SFLASH_DIE_X << 8) | 
                 *(uint32 *)CYREG_SFLASH_DIE_Y;
+                
+    printf("ID = %04x ******** \r\n\n", beaconId);
 }
 
 /******************************************************************************
