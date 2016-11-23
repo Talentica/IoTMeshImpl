@@ -28,7 +28,9 @@ static void mesh_get_peer_location(uint16_t destination_id)
     data[0] = (destination_id >> 8) & 0x00FF;
     data[1] = destination_id & 0x00FF;
 
-    advertising_init(opcode, data, sizeof(data));
+    APPL_LOG("Asking for peer location...\r\n");
+
+    advertising_change_data(opcode, data, sizeof(data));
 }
 
 
@@ -45,7 +47,9 @@ static void mesh_send_current_location(uint16_t msg_destination_id)
     data[2] = beacons[min_index].beacon_id >> 8;
     data[3] = beacons[min_index].beacon_id;
 
-    advertising_init(opcode, data, sizeof(data));
+    APPL_LOG("Replying to peer location query...\r\n");
+
+    advertising_change_data(opcode, data, sizeof(data));
 }
 
 

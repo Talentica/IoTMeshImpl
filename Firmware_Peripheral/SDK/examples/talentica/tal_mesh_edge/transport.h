@@ -33,7 +33,8 @@ extern volatile uint8_t numberOfElements;
 
 extern void on_ble_evt(ble_evt_t * p_ble_evt);
 extern void create_beacon_timer(void);
-extern void advertising_init(uint8_t opcode, uint8_t * param, uint8_t param_length);
+extern void advertising_start_beacon(void);
+extern void advertising_change_data(uint8_t opcode, uint8_t * param, uint8_t param_length);
 extern void mesh_transport_run(void);
 
 

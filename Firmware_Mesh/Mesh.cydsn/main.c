@@ -139,7 +139,7 @@ void SendMeshPacket(uint8 opcode, const uint8 * data, uint8 length)
     memcpy(&packet.data[1], data, length);
     packet.len = length;
     
-    printf("Transmit\r\n");
+//    printf("Transmit\r\n");
     
     CyMesh_VendorSpecificSendDataUnreliable(packet, 
                                             CYMESH_MDL_VENDOR_SPECIFIC_COMP_3, 
@@ -234,7 +234,7 @@ void MeshEventHandler(uint32 event, void * eventParam, uint8 compIndex, uint8 mo
             uint8 * data = vend_data->data;
             uint16 incomingDestinationId = (data[3] << 8) | data[4];
             
-            printf("Receive\r\n");
+//            printf("Receive\r\n");
             
             if(FindDeviceInList(incomingDestinationId) >= 0)
             {
@@ -247,7 +247,6 @@ void MeshEventHandler(uint32 event, void * eventParam, uint8 compIndex, uint8 mo
             else
             {
                 /* Packet dropped */
-                printf("?????????????? packet dropped.\r\n");
             }
 		    break;
 		}
