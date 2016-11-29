@@ -84,10 +84,10 @@ void advertising_change_data(uint8_t opcode, uint8_t * param, uint8_t param_leng
     uint32_t err_code;
 
     payload[0] = (SEND_DATA << BIT_POS_IS_DATA) | (DEVICE_PERIPHERAL << BIT_POS_IS_PERIPHERAL) | (opcode & MASK_OPCODE);
-    payload[1] = (beacons[min_index].beacon_id >> 8) & 0x00FF;
-    payload[2] = beacons[min_index].beacon_id & 0x00FF;
-    payload[3] = (source_id >> 8) & 0x00FF;
-    payload[4] = source_id & 0x00FF;
+    payload[1] = beacons[min_index].beacon_id & 0x00FF;
+    payload[2] = (beacons[min_index].beacon_id >> 8) & 0x00FF;
+    payload[3] = source_id & 0x00FF;
+    payload[4] = (source_id >> 8) & 0x00FF;
     memcpy(&payload[5], param, param_length);
 
     /* Send the information out once */
@@ -114,8 +114,8 @@ void advertising_change_beacon(void)
     uint32_t err_code;
 
     /* Simply change ADV data */
-    payload[1] = (beacons[min_index].beacon_id >> 8) & 0x00FF;
-    payload[2] = beacons[min_index].beacon_id & 0x00FF;
+    payload[1] = beacons[min_index].beacon_id & 0x00FF;
+    payload[2] = (beacons[min_index].beacon_id >> 8) & 0x00FF;
 
     err_code = ble_advdata_set(&m_advdata, NULL);
     APP_ERROR_CHECK(err_code);
@@ -126,8 +126,7 @@ void advertising_start_beacon(void)
 {
     uint32_t err_code;
 
-    /* In the uint16_encode() function called internally, the MSB and LSB are swapped */
-    manuf_data.company_identifier = (MANUFACTURER_ID_TALENTICA_MSB) | (MANUFACTURER_ID_TALENTICA_LSB << 8);
+    manuf_data.company_identifier = (MANUFACTURER_ID_TALENTICA_MSB << 8) | MANUFACTURER_ID_TALENTICA_LSB;
     manuf_data.data.p_data = payload;
     manuf_data.data.size = 5;
 
@@ -142,10 +141,10 @@ void advertising_start_beacon(void)
     options.ble_adv_fast_timeout      = 0;
 
     payload[0] = (SEND_NO_DATA << BIT_POS_IS_DATA) | (DEVICE_PERIPHERAL << BIT_POS_IS_PERIPHERAL);
-    payload[1] = (beacons[min_index].beacon_id >> 8) & 0x00FF;
-    payload[2] = beacons[min_index].beacon_id & 0x00FF;
-    payload[3] = (source_id >> 8) & 0x00FF;
-    payload[4] = source_id & 0x00FF;
+    payload[1] = beacons[min_index].beacon_id & 0x00FF;
+    payload[2] = (beacons[min_index].beacon_id >> 8) & 0x00FF;
+    payload[3] = source_id & 0x00FF;
+    payload[4] = (source_id >> 8) & 0x00FF;
 
     err_code = ble_advertising_init(&advdata, NULL, &options, on_adv_evt, NULL);
     APP_ERROR_CHECK(err_code);
@@ -271,13 +270,13 @@ void on_ble_evt(ble_evt_t * p_ble_evt)
             {
                 /* Length included in flags field */
                 uint8_t field_flags[] = {ADV_AD_TYPE_FIELD_SIZE + AD_TYPE_FLAGS_DATA_SIZE,
-                                         BLE_GAP_AD_TYPE_FLAGS + 1, /* TODO: Defect in mesh stack */
+                                         BLE_GAP_AD_TYPE_FLAGS,
                                          BLE_GAP_ADV_FLAGS_LE_ONLY_GENERAL_DISC_MODE};
 
                 /* Length not included in manuf. data since it can be variable */
                 uint8_t field_manuf_data[] = {BLE_GAP_AD_TYPE_MANUFACTURER_SPECIFIC_DATA,
-                                              MANUFACTURER_ID_TALENTICA_MSB,
-                                              MANUFACTURER_ID_TALENTICA_LSB};
+                                              MANUFACTURER_ID_TALENTICA_LSB,
+                                              MANUFACTURER_ID_TALENTICA_MSB};
 
                 uint8_t index;
 
@@ -312,13 +311,13 @@ void on_ble_evt(ble_evt_t * p_ble_evt)
                 /* If the beacon is just a keep-alive (no data), extract the beacon ID. */
                 if((data[index] & MASK_IS_DATA) == (SEND_NO_DATA << BIT_POS_IS_DATA))
                 {
-                    beacon_id = (data[index + 1] << 8) | data[index + 2];
+                    beacon_id = (data[index + 2] << 8) | data[index + 1];
                 }
                 else
                 {
-                    uint16_t msg_beacon_id      = (data[index + 1] << 8) | data[index + 2];
-                    uint16_t msg_source_id      = (data[index + 3] << 8) | data[index + 4];
-                    uint16_t msg_destination_id = (data[index + 5] << 8) | data[index + 6];
+                    uint16_t msg_beacon_id      = (data[index + 2] << 8) | data[index + 1];
+                    uint16_t msg_source_id      = (data[index + 4] << 8) | data[index + 3];
+                    uint16_t msg_destination_id = (data[index + 6] << 8) | data[index + 5];
                     uint8_t opcode = data[index] & MASK_OPCODE;
                     uint8_t length = data_len - index - 7;
 

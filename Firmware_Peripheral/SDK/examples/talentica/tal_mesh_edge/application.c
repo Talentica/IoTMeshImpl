@@ -25,8 +25,8 @@ static void mesh_get_peer_location(uint16_t destination_id)
     uint8_t opcode = OPCODE_LOCATION_GET;
     uint8_t data[2];
 
-    data[0] = (destination_id >> 8) & 0x00FF;
-    data[1] = destination_id & 0x00FF;
+    data[0] = destination_id & 0x00FF;
+    data[1] = (destination_id >> 8) & 0x00FF;
 
     APPL_LOG("Asking for peer location...\r\n");
 
@@ -42,10 +42,10 @@ static void mesh_send_current_location(uint16_t msg_destination_id)
     uint8_t opcode = OPCODE_LOCATION_STATUS;
     uint8_t data[4];
 
-    data[0] = (msg_destination_id >> 8) & 0x00FF;
-    data[1] = msg_destination_id & 0x00FF;
-    data[2] = beacons[min_index].beacon_id >> 8;
-    data[3] = beacons[min_index].beacon_id;
+    data[0] = msg_destination_id & 0x00FF;
+    data[1] = (msg_destination_id >> 8) & 0x00FF;
+    data[2] = beacons[min_index].beacon_id;
+    data[3] = beacons[min_index].beacon_id >> 8;
 
     APPL_LOG("Replying to peer location query...\r\n");
 
@@ -69,7 +69,7 @@ void application_event_handler(uint8_t opcode, uint16_t msg_source_id, const uin
         break;
 
     case OPCODE_LOCATION_STATUS:
-        APPL_LOG("Peer device's current location is: %04x\r\n", (data[0] << 8) | data[1]);
+        APPL_LOG("Peer device's current location is: %04x\r\n", (data[1] << 8) | data[0]);
         break;
 
     default:

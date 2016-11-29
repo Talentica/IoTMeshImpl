@@ -124,7 +124,6 @@ void TimerIsr(void)
             }
         }
     }
-    
 }
 
 
@@ -139,8 +138,6 @@ void SendMeshPacket(uint8 opcode, const uint8 * data, uint8 length)
     memcpy(&packet.data[1], data, length);
     packet.len = length;
     
-//    printf("Transmit\r\n");
-    
     CyMesh_VendorSpecificSendDataUnreliable(packet, 
                                             CYMESH_MDL_VENDOR_SPECIFIC_COMP_3, 
                                             CYMESH_MDL_VENDOR_SPECIFIC_COMP_3_MDLIDX);
@@ -154,17 +151,17 @@ void SendDataBeacon(const uint8 * payload, uint8 payloadLength)
     
     /* Flags */
     data[0] = CYBLE_GAP_ADV_FLAGS_PACKET_LENGTH;
-    data[1] = CYBLE_GAP_ADV_FLAGS + 1;  /* TODO: This is a stack defect */
+    data[1] = CYBLE_GAP_ADV_FLAGS;
     data[2] = CYBLE_GAP_ADV_FLAG_LE_GENERAL_DISC_MODE | CYBLE_GAP_ADV_FLAG_BR_EDR_NOT_SUPPORTED;
     
     /* Manufacturer data */
     data[3] = payloadLength + 5;
     data[4] = ADV_TYPE_MANUFACTURER_DATA;
-    data[5] = MANUFACTURER_ID_TALENTICA_MSB;
-    data[6] = MANUFACTURER_ID_TALENTICA_LSB;
+    data[5] = MANUFACTURER_ID_TALENTICA_LSB;
+    data[6] = MANUFACTURER_ID_TALENTICA_MSB;
     data[7] = (SEND_DATA << BIT_POS_IS_DATA) | (DEVICE_MESH << BIT_POS_IS_PERIPHERAL) | (payload[0] & MASK_OPCODE);
-    data[8] = (beaconId >> 8) & 0x00FF;
-    data[9] = beaconId & 0x00FF;
+    data[8] = beaconId & 0x00FF;
+    data[9] = (beaconId >> 8) & 0x00FF;
     memcpy(&data[10], &payload[1], payloadLength - 1);
     
     length = payloadLength + 9;
@@ -181,17 +178,17 @@ void SendEmptyBeacon(void)
     
     /* Flags */
     data[0] = CYBLE_GAP_ADV_FLAGS_PACKET_LENGTH;
-    data[1] = CYBLE_GAP_ADV_FLAGS + 1;  /* TODO: This is a stack defect */
+    data[1] = CYBLE_GAP_ADV_FLAGS;
     data[2] = CYBLE_GAP_ADV_FLAG_LE_GENERAL_DISC_MODE | CYBLE_GAP_ADV_FLAG_BR_EDR_NOT_SUPPORTED;
     
     /* Manufacturer data */
     data[3] = 6;    /* Length of manufacturer data field */
     data[4] = ADV_TYPE_MANUFACTURER_DATA;
-    data[5] = MANUFACTURER_ID_TALENTICA_MSB;
-    data[6] = MANUFACTURER_ID_TALENTICA_LSB;
+    data[5] = MANUFACTURER_ID_TALENTICA_LSB;
+    data[6] = MANUFACTURER_ID_TALENTICA_MSB;
     data[7] = (SEND_NO_DATA << BIT_POS_IS_DATA) | (DEVICE_MESH << BIT_POS_IS_PERIPHERAL);
-    data[8] = (beaconId >> 8) & 0x00FF;
-    data[9] = beaconId & 0x00FF;
+    data[8] = beaconId & 0x00FF;
+    data[9] = (beaconId >> 8) & 0x00FF;
     
     length = 10;
     
@@ -232,9 +229,7 @@ void MeshEventHandler(uint32 event, void * eventParam, uint8 compIndex, uint8 mo
 			CYMESH_VARIABLE_DATA_T * vend_data = (CYMESH_VARIABLE_DATA_T*) eventParam;
 			uint8 data_len = vend_data->len;
             uint8 * data = vend_data->data;
-            uint16 incomingDestinationId = (data[3] << 8) | data[4];
-            
-//            printf("Receive\r\n");
+            uint16 incomingDestinationId = (data[4] << 8) | data[3];
             
             if(FindDeviceInList(incomingDestinationId) >= 0)
             {
@@ -298,8 +293,8 @@ void GenericEventHandler(uint32 event, void * eventParam)
 
                 /* Length not included in manuf. data since it can be variable */
                 uint8_t field_manuf_data[] = {ADV_TYPE_MANUFACTURER_DATA,
-                                              MANUFACTURER_ID_TALENTICA_MSB,
-                                              MANUFACTURER_ID_TALENTICA_LSB};
+                                              MANUFACTURER_ID_TALENTICA_LSB,
+                                              MANUFACTURER_ID_TALENTICA_MSB};
 
                 uint8_t index;
                 uint16 incomingBeaconId;
@@ -333,8 +328,8 @@ void GenericEventHandler(uint32 event, void * eventParam)
                     break;
                 }
                 
-                incomingBeaconId = (data[index + 1] << 8) | data[index + 2];
-                incomingSourceId = (data[index + 3] << 8) | data[index + 4];
+                incomingBeaconId = (data[index + 2] << 8) | data[index + 1];
+                incomingSourceId = (data[index + 4] << 8) | data[index + 3];
                 
                 /* If this is not the target beacon, drop packet */
                 if(incomingBeaconId != beaconId)

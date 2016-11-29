@@ -5041,26 +5041,26 @@ OUTPUT(_build/nrf51422_xxac_s130.out elf32-littlearm)
  .debug_frame   0x000019c0       0x20 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libnosys.a(lseek.o)
  .debug_frame   0x000019e0       0x20 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libnosys.a(sbrk.o)
 
-.debug_info     0x00000000    0x17bf8
+.debug_info     0x00000000    0x17bf7
  .debug_info    0x00000000     0x1e00 _build/main.o
  .debug_info    0x00001e00      0x481 _build/application.o
- .debug_info    0x00002281     0x2500 _build/transport.o
- .debug_info    0x00004781     0x1cd8 _build/ble_advdata.o
- .debug_info    0x00006459     0x2179 _build/ble_advertising.o
- .debug_info    0x000085d2      0x469 _build/nrf_drv_common.o
- .debug_info    0x00008a3b     0x1f9a _build/nrf_drv_gpiote.o
- .debug_info    0x0000a9d5     0x3683 _build/pstorage.o
- .debug_info    0x0000e058     0x24b4 _build/nrf_drv_uart.o
- .debug_info    0x0001050c      0x5de _build/app_fifo.o
- .debug_info    0x00010aea     0x1070 _build/fstorage.o
- .debug_info    0x00011b5a     0x1bf6 _build/app_timer.o
- .debug_info    0x00013750      0xa0d _build/retarget.o
- .debug_info    0x0001415d      0xb39 _build/app_uart_fifo.o
- .debug_info    0x00014c96      0x334 _build/app_error.o
- .debug_info    0x00014fca      0x1ec _build/app_error_weak.o
- .debug_info    0x000151b6      0x7b2 _build/nrf_log.o
- .debug_info    0x00015968     0x20b7 _build/softdevice_handler.o
- .debug_info    0x00017a1f      0x1d9 _build/system_nrf51.o
+ .debug_info    0x00002281     0x24ff _build/transport.o
+ .debug_info    0x00004780     0x1cd8 _build/ble_advdata.o
+ .debug_info    0x00006458     0x2179 _build/ble_advertising.o
+ .debug_info    0x000085d1      0x469 _build/nrf_drv_common.o
+ .debug_info    0x00008a3a     0x1f9a _build/nrf_drv_gpiote.o
+ .debug_info    0x0000a9d4     0x3683 _build/pstorage.o
+ .debug_info    0x0000e057     0x24b4 _build/nrf_drv_uart.o
+ .debug_info    0x0001050b      0x5de _build/app_fifo.o
+ .debug_info    0x00010ae9     0x1070 _build/fstorage.o
+ .debug_info    0x00011b59     0x1bf6 _build/app_timer.o
+ .debug_info    0x0001374f      0xa0d _build/retarget.o
+ .debug_info    0x0001415c      0xb39 _build/app_uart_fifo.o
+ .debug_info    0x00014c95      0x334 _build/app_error.o
+ .debug_info    0x00014fc9      0x1ec _build/app_error_weak.o
+ .debug_info    0x000151b5      0x7b2 _build/nrf_log.o
+ .debug_info    0x00015967     0x20b7 _build/softdevice_handler.o
+ .debug_info    0x00017a1e      0x1d9 _build/system_nrf51.o
 
 .debug_abbrev   0x00000000     0x37f5
  .debug_abbrev  0x00000000      0x36d _build/main.o
@@ -5281,26 +5281,26 @@ OUTPUT(_build/nrf51422_xxac_s130.out elf32-littlearm)
  .debug_macro   0x0000f15d       0x10 _build/softdevice_handler.o
  .debug_macro   0x0000f16d       0xd0 _build/system_nrf51.o
 
-.debug_line     0x00000000     0xba82
+.debug_line     0x00000000     0xba83
  .debug_line    0x00000000      0xc7e _build/main.o
- .debug_line    0x00000c7e      0x66f _build/application.o
- .debug_line    0x000012ed      0xcfb _build/transport.o
- .debug_line    0x00001fe8      0xaa5 _build/ble_advdata.o
- .debug_line    0x00002a8d      0xaea _build/ble_advertising.o
- .debug_line    0x00003577      0x757 _build/nrf_drv_common.o
- .debug_line    0x00003cce      0xfe5 _build/nrf_drv_gpiote.o
- .debug_line    0x00004cb3     0x12c1 _build/pstorage.o
- .debug_line    0x00005f74      0xd51 _build/nrf_drv_uart.o
- .debug_line    0x00006cc5      0x6ec _build/app_fifo.o
- .debug_line    0x000073b1      0x880 _build/fstorage.o
- .debug_line    0x00007c31      0xc5c _build/app_timer.o
- .debug_line    0x0000888d      0x647 _build/retarget.o
- .debug_line    0x00008ed4      0x98b _build/app_uart_fifo.o
- .debug_line    0x0000985f      0x5b8 _build/app_error.o
- .debug_line    0x00009e17      0x57b _build/app_error_weak.o
- .debug_line    0x0000a392      0x89e _build/nrf_log.o
- .debug_line    0x0000ac30      0xa76 _build/softdevice_handler.o
- .debug_line    0x0000b6a6      0x3dc _build/system_nrf51.o
+ .debug_line    0x00000c7e      0x673 _build/application.o
+ .debug_line    0x000012f1      0xcf8 _build/transport.o
+ .debug_line    0x00001fe9      0xaa5 _build/ble_advdata.o
+ .debug_line    0x00002a8e      0xaea _build/ble_advertising.o
+ .debug_line    0x00003578      0x757 _build/nrf_drv_common.o
+ .debug_line    0x00003ccf      0xfe5 _build/nrf_drv_gpiote.o
+ .debug_line    0x00004cb4     0x12c1 _build/pstorage.o
+ .debug_line    0x00005f75      0xd51 _build/nrf_drv_uart.o
+ .debug_line    0x00006cc6      0x6ec _build/app_fifo.o
+ .debug_line    0x000073b2      0x880 _build/fstorage.o
+ .debug_line    0x00007c32      0xc5c _build/app_timer.o
+ .debug_line    0x0000888e      0x647 _build/retarget.o
+ .debug_line    0x00008ed5      0x98b _build/app_uart_fifo.o
+ .debug_line    0x00009860      0x5b8 _build/app_error.o
+ .debug_line    0x00009e18      0x57b _build/app_error_weak.o
+ .debug_line    0x0000a393      0x89e _build/nrf_log.o
+ .debug_line    0x0000ac31      0xa76 _build/softdevice_handler.o
+ .debug_line    0x0000b6a7      0x3dc _build/system_nrf51.o
 
 .debug_str      0x00000000    0x47620
  .debug_str     0x00000000    0x3e3de _build/main.o
