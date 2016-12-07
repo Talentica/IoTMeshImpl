@@ -49,7 +49,7 @@ ble_adv_modes_config_t      options = {0};
 ble_advdata_manuf_data_t    manuf_data;
 static uint8_t              payload[15];
 
-static uint16_t source_id = DEVICE_2_SOURCE_ID;
+uint16_t source_id = DEVICE_1_SOURCE_ID;
 APP_TIMER_DEF(beacon_refresh_id);
 
 

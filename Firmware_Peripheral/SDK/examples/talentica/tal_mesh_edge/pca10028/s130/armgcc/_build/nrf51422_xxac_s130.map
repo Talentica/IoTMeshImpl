@@ -371,7 +371,7 @@ Discarded input sections
  .text.advertising_change_beacon
                 0x00000000       0x3c _build/transport.o
  .text.advertising_start_beacon
-                0x00000000       0xa0 _build/transport.o
+                0x00000000       0xa8 _build/transport.o
  .debug_macro   0x00000000      0x85c _build/transport.o
  .debug_macro   0x00000000       0x22 _build/transport.o
  .debug_macro   0x00000000       0x44 _build/transport.o
@@ -4126,13 +4126,13 @@ Memory Configuration
 
 Name             Origin             Length             Attributes
 FLASH            0x0001b000         0x00025000         xr
-RAM              0x20001eb0         0x00004150         xrw
+RAM              0x20001eb0         0x00006150         xrw
 *default*        0x00000000         0xffffffff
 
 Linker script and memory map
 
 
-.text           0x0001b000     0x4344
+.text           0x0001b000     0x43a4
  *(.isr_vector)
  .isr_vector    0x0001b000       0xc0 _build/gcc_startup_nrf51.o
                 0x0001b000                __isr_vector
@@ -4163,330 +4163,330 @@ Linker script and memory map
                 0x0001b324       0x6c _build/application.o
                 0x0001b324                application_event_handler
  .text.mesh_application_run
-                0x0001b390       0x98 _build/application.o
+                0x0001b390       0xbc _build/application.o
                 0x0001b390                mesh_application_run
  .text.sd_ble_gap_adv_stop
-                0x0001b428        0x4 _build/transport.o
+                0x0001b44c        0x4 _build/transport.o
  .text.on_adv_evt
-                0x0001b42c        0x4 _build/transport.o
+                0x0001b450        0x4 _build/transport.o
  .text.calc_rssi_min_max
-                0x0001b430      0x124 _build/transport.o
+                0x0001b454      0x124 _build/transport.o
  .text.beacon_timer_handler
-                0x0001b554       0x84 _build/transport.o
+                0x0001b578       0x84 _build/transport.o
  .text.advertising_change_data
-                0x0001b5d8       0xa0 _build/transport.o
-                0x0001b5d8                advertising_change_data
+                0x0001b5fc       0xa4 _build/transport.o
+                0x0001b5fc                advertising_change_data
  .text.on_ble_evt
-                0x0001b678      0x2b8 _build/transport.o
-                0x0001b678                on_ble_evt
+                0x0001b6a0      0x2c4 _build/transport.o
+                0x0001b6a0                on_ble_evt
  .text.create_beacon_timer
-                0x0001b930       0x38 _build/transport.o
-                0x0001b930                create_beacon_timer
+                0x0001b964       0x38 _build/transport.o
+                0x0001b964                create_beacon_timer
  .text.mesh_transport_run
-                0x0001b968      0x138 _build/transport.o
-                0x0001b968                mesh_transport_run
+                0x0001b99c      0x13c _build/transport.o
+                0x0001b99c                mesh_transport_run
  .text.sd_ble_gap_address_get
-                0x0001baa0        0x4 _build/ble_advdata.o
+                0x0001bad8        0x4 _build/ble_advdata.o
  .text.sd_ble_gap_adv_data_set
-                0x0001baa4        0x4 _build/ble_advdata.o
+                0x0001badc        0x4 _build/ble_advdata.o
  .text.sd_ble_gap_appearance_get
-                0x0001baa8        0x4 _build/ble_advdata.o
+                0x0001bae0        0x4 _build/ble_advdata.o
  .text.sd_ble_gap_device_name_get
-                0x0001baac        0x4 _build/ble_advdata.o
+                0x0001bae4        0x4 _build/ble_advdata.o
  .text.sd_ble_uuid_encode
-                0x0001bab0        0x4 _build/ble_advdata.o
+                0x0001bae8        0x4 _build/ble_advdata.o
  .text.name_encode
-                0x0001bab4       0x8c _build/ble_advdata.o
+                0x0001baec       0x8c _build/ble_advdata.o
  .text.uuid_list_sized_encode
-                0x0001bb40       0xe8 _build/ble_advdata.o
+                0x0001bb78       0xe8 _build/ble_advdata.o
  .text.adv_data_encode
-                0x0001bc28      0x550 _build/ble_advdata.o
-                0x0001bc28                adv_data_encode
+                0x0001bc60      0x550 _build/ble_advdata.o
+                0x0001bc60                adv_data_encode
  .text.ble_advdata_set
-                0x0001c178      0x508 _build/ble_advdata.o
-                0x0001c178                ble_advdata_set
+                0x0001c1b0      0x508 _build/ble_advdata.o
+                0x0001c1b0                ble_advdata_set
  .text.sd_ble_gap_adv_start
-                0x0001c680        0x4 _build/ble_advertising.o
+                0x0001c6b8        0x4 _build/ble_advertising.o
  .text.ble_advertising_init
-                0x0001c684      0x148 _build/ble_advertising.o
-                0x0001c684                ble_advertising_init
+                0x0001c6bc      0x148 _build/ble_advertising.o
+                0x0001c6bc                ble_advertising_init
  .text.ble_advertising_start
-                0x0001c7cc      0x2c4 _build/ble_advertising.o
-                0x0001c7cc                ble_advertising_start
+                0x0001c804      0x2c4 _build/ble_advertising.o
+                0x0001c804                ble_advertising_start
  .text.nrf_drv_common_irq_enable
-                0x0001ca90       0x80 _build/nrf_drv_common.o
-                0x0001ca90                nrf_drv_common_irq_enable
+                0x0001cac8       0x80 _build/nrf_drv_common.o
+                0x0001cac8                nrf_drv_common_irq_enable
  .text.GPIOTE_IRQHandler
-                0x0001cb10      0x2a8 _build/nrf_drv_gpiote.o
-                0x0001cb10                GPIOTE_IRQHandler
+                0x0001cb48      0x2a8 _build/nrf_drv_gpiote.o
+                0x0001cb48                GPIOTE_IRQHandler
  .text.pstorage_access_status_get
-                0x0001cdb8       0x28 _build/pstorage.o
-                0x0001cdb8                pstorage_access_status_get
+                0x0001cdf0       0x28 _build/pstorage.o
+                0x0001cdf0                pstorage_access_status_get
  .text.nrf_drv_uart_init
-                0x0001cde0      0x120 _build/nrf_drv_uart.o
-                0x0001cde0                nrf_drv_uart_init
+                0x0001ce18      0x120 _build/nrf_drv_uart.o
+                0x0001ce18                nrf_drv_uart_init
  .text.nrf_drv_uart_tx
-                0x0001cf00       0xb4 _build/nrf_drv_uart.o
-                0x0001cf00                nrf_drv_uart_tx
+                0x0001cf38       0xb4 _build/nrf_drv_uart.o
+                0x0001cf38                nrf_drv_uart_tx
  .text.nrf_drv_uart_tx_in_progress
-                0x0001cfb4       0x10 _build/nrf_drv_uart.o
-                0x0001cfb4                nrf_drv_uart_tx_in_progress
+                0x0001cfec       0x10 _build/nrf_drv_uart.o
+                0x0001cfec                nrf_drv_uart_tx_in_progress
  .text.nrf_drv_uart_rx
-                0x0001cfc4      0x130 _build/nrf_drv_uart.o
-                0x0001cfc4                nrf_drv_uart_rx
+                0x0001cffc      0x130 _build/nrf_drv_uart.o
+                0x0001cffc                nrf_drv_uart_rx
  .text.nrf_drv_uart_rx_enable
-                0x0001d0f4       0x2c _build/nrf_drv_uart.o
-                0x0001d0f4                nrf_drv_uart_rx_enable
+                0x0001d12c       0x2c _build/nrf_drv_uart.o
+                0x0001d12c                nrf_drv_uart_rx_enable
  .text.UART0_IRQHandler
-                0x0001d120      0x1a8 _build/nrf_drv_uart.o
-                0x0001d120                UART0_IRQHandler
+                0x0001d158      0x1a8 _build/nrf_drv_uart.o
+                0x0001d158                UART0_IRQHandler
  .text.app_fifo_init
-                0x0001d2c8       0x28 _build/app_fifo.o
-                0x0001d2c8                app_fifo_init
+                0x0001d300       0x28 _build/app_fifo.o
+                0x0001d300                app_fifo_init
  .text.app_fifo_put
-                0x0001d2f0       0x28 _build/app_fifo.o
-                0x0001d2f0                app_fifo_put
+                0x0001d328       0x28 _build/app_fifo.o
+                0x0001d328                app_fifo_put
  .text.app_fifo_get
-                0x0001d318       0x24 _build/app_fifo.o
-                0x0001d318                app_fifo_get
+                0x0001d350       0x24 _build/app_fifo.o
+                0x0001d350                app_fifo_get
  .text.fs_queued_op_count_get
-                0x0001d33c       0x18 _build/fstorage.o
-                0x0001d33c                fs_queued_op_count_get
+                0x0001d374       0x18 _build/fstorage.o
+                0x0001d374                fs_queued_op_count_get
  .text.rtc1_stop
-                0x0001d354       0x78 _build/app_timer.o
+                0x0001d38c       0x78 _build/app_timer.o
  .text.RTC1_IRQHandler
-                0x0001d3cc       0xdc _build/app_timer.o
-                0x0001d3cc                RTC1_IRQHandler
+                0x0001d404       0xdc _build/app_timer.o
+                0x0001d404                RTC1_IRQHandler
  .text.SWI0_IRQHandler
-                0x0001d4a8      0x448 _build/app_timer.o
-                0x0001d4a8                SWI0_IRQHandler
+                0x0001d4e0      0x448 _build/app_timer.o
+                0x0001d4e0                SWI0_IRQHandler
  .text.app_timer_init
-                0x0001d8f0       0xe4 _build/app_timer.o
-                0x0001d8f0                app_timer_init
+                0x0001d928       0xe4 _build/app_timer.o
+                0x0001d928                app_timer_init
  .text.app_timer_create
-                0x0001d9d4       0x34 _build/app_timer.o
-                0x0001d9d4                app_timer_create
+                0x0001da0c       0x34 _build/app_timer.o
+                0x0001da0c                app_timer_create
  .text.app_timer_start
-                0x0001da08       0xf8 _build/app_timer.o
-                0x0001da08                app_timer_start
- .text._write   0x0001db00       0x1c _build/retarget.o
-                0x0001db00                _write
- .text._read    0x0001db1c       0x14 _build/retarget.o
-                0x0001db1c                _read
+                0x0001da40       0xf8 _build/app_timer.o
+                0x0001da40                app_timer_start
+ .text._write   0x0001db38       0x1c _build/retarget.o
+                0x0001db38                _write
+ .text._read    0x0001db54       0x14 _build/retarget.o
+                0x0001db54                _read
  .text.uart_event_handler
-                0x0001db30       0xc8 _build/app_uart_fifo.o
+                0x0001db68       0xc8 _build/app_uart_fifo.o
  .text.app_uart_init
-                0x0001dbf8       0xa4 _build/app_uart_fifo.o
-                0x0001dbf8                app_uart_init
+                0x0001dc30       0xa4 _build/app_uart_fifo.o
+                0x0001dc30                app_uart_init
  .text.app_uart_get
-                0x0001dc9c       0x34 _build/app_uart_fifo.o
-                0x0001dc9c                app_uart_get
+                0x0001dcd4       0x34 _build/app_uart_fifo.o
+                0x0001dcd4                app_uart_get
  .text.app_uart_put
-                0x0001dcd0       0x40 _build/app_uart_fifo.o
-                0x0001dcd0                app_uart_put
+                0x0001dd08       0x40 _build/app_uart_fifo.o
+                0x0001dd08                app_uart_put
  .text.app_error_handler_bare
-                0x0001dd10       0x20 _build/app_error.o
-                0x0001dd10                app_error_handler_bare
+                0x0001dd48       0x20 _build/app_error.o
+                0x0001dd48                app_error_handler_bare
  .text.app_error_fault_handler
-                0x0001dd30       0x1c _build/app_error_weak.o
-                0x0001dd30                app_error_fault_handler
+                0x0001dd68       0x1c _build/app_error_weak.o
+                0x0001dd68                app_error_fault_handler
  .text.uart_error_cb
-                0x0001dd4c       0x18 _build/nrf_log.o
-                0x0001dd4c                uart_error_cb
+                0x0001dd84       0x18 _build/nrf_log.o
+                0x0001dd84                uart_error_cb
  .text.log_uart_init
-                0x0001dd64       0x50 _build/nrf_log.o
-                0x0001dd64                log_uart_init
+                0x0001dd9c       0x50 _build/nrf_log.o
+                0x0001dd9c                log_uart_init
  .text.log_uart_printf
-                0x0001ddb4       0x18 _build/nrf_log.o
-                0x0001ddb4                log_uart_printf
+                0x0001ddec       0x18 _build/nrf_log.o
+                0x0001ddec                log_uart_printf
  .text.log_uart_has_input
-                0x0001ddcc       0x2c _build/nrf_log.o
-                0x0001ddcc                log_uart_has_input
+                0x0001de04       0x2c _build/nrf_log.o
+                0x0001de04                log_uart_has_input
  .text.log_uart_read_input
-                0x0001ddf8       0x2c _build/nrf_log.o
-                0x0001ddf8                log_uart_read_input
+                0x0001de30       0x2c _build/nrf_log.o
+                0x0001de30                log_uart_read_input
  .text.sd_evt_get
-                0x0001de24        0x4 _build/softdevice_handler.o
+                0x0001de5c        0x4 _build/softdevice_handler.o
  .text.sd_softdevice_enable
-                0x0001de28        0x4 _build/softdevice_handler.o
+                0x0001de60        0x4 _build/softdevice_handler.o
  .text.sd_ble_enable
-                0x0001de2c        0x4 _build/softdevice_handler.o
+                0x0001de64        0x4 _build/softdevice_handler.o
  .text.sd_ble_evt_get
-                0x0001de30        0x4 _build/softdevice_handler.o
+                0x0001de68        0x4 _build/softdevice_handler.o
  .text.softdevice_fault_handler
-                0x0001de34        0x8 _build/softdevice_handler.o
-                0x0001de34                softdevice_fault_handler
+                0x0001de6c        0x8 _build/softdevice_handler.o
+                0x0001de6c                softdevice_fault_handler
  .text.intern_softdevice_events_execute.part.0
-                0x0001de3c       0xd8 _build/softdevice_handler.o
+                0x0001de74       0xd8 _build/softdevice_handler.o
  .text.softdevice_handler_init
-                0x0001df14       0x7c _build/softdevice_handler.o
-                0x0001df14                softdevice_handler_init
+                0x0001df4c       0x7c _build/softdevice_handler.o
+                0x0001df4c                softdevice_handler_init
  .text.softdevice_ble_evt_handler_set
-                0x0001df90       0x14 _build/softdevice_handler.o
-                0x0001df90                softdevice_ble_evt_handler_set
+                0x0001dfc8       0x14 _build/softdevice_handler.o
+                0x0001dfc8                softdevice_ble_evt_handler_set
  .text.softdevice_sys_evt_handler_set
-                0x0001dfa4       0x14 _build/softdevice_handler.o
-                0x0001dfa4                softdevice_sys_evt_handler_set
+                0x0001dfdc       0x14 _build/softdevice_handler.o
+                0x0001dfdc                softdevice_sys_evt_handler_set
  .text.SWI2_IRQHandler
-                0x0001dfb8       0x30 _build/softdevice_handler.o
-                0x0001dfb8                SWI2_IRQHandler
+                0x0001dff0       0x30 _build/softdevice_handler.o
+                0x0001dff0                SWI2_IRQHandler
  .text.softdevice_enable_get_default_config
-                0x0001dfe8       0x30 _build/softdevice_handler.o
-                0x0001dfe8                softdevice_enable_get_default_config
+                0x0001e020       0x30 _build/softdevice_handler.o
+                0x0001e020                softdevice_enable_get_default_config
  .text.sd_check_ram_start
-                0x0001e018       0x14 _build/softdevice_handler.o
-                0x0001e018                sd_check_ram_start
+                0x0001e050       0x14 _build/softdevice_handler.o
+                0x0001e050                sd_check_ram_start
  .text.softdevice_enable
-                0x0001e02c       0x1c _build/softdevice_handler.o
-                0x0001e02c                softdevice_enable
+                0x0001e064       0x1c _build/softdevice_handler.o
+                0x0001e064                softdevice_enable
  .text.SystemInit
-                0x0001e048       0xec _build/system_nrf51.o
-                0x0001e048                SystemInit
- .text          0x0001e134       0x4c _build/gcc_startup_nrf51.o
-                0x0001e134                Reset_Handler
-                0x0001e174                NMI_Handler
-                0x0001e176                HardFault_Handler
-                0x0001e178                SVC_Handler
-                0x0001e17a                PendSV_Handler
-                0x0001e17c                SysTick_Handler
-                0x0001e17e                RTC0_IRQHandler
-                0x0001e17e                POWER_CLOCK_IRQHandler
-                0x0001e17e                SPI0_TWI0_IRQHandler
-                0x0001e17e                LPCOMP_IRQHandler
-                0x0001e17e                SWI4_IRQHandler
-                0x0001e17e                TEMP_IRQHandler
-                0x0001e17e                QDEC_IRQHandler
-                0x0001e17e                SWI5_IRQHandler
-                0x0001e17e                TIMER0_IRQHandler
-                0x0001e17e                RADIO_IRQHandler
-                0x0001e17e                TIMER1_IRQHandler
-                0x0001e17e                ECB_IRQHandler
-                0x0001e17e                Default_Handler
-                0x0001e17e                ADC_IRQHandler
-                0x0001e17e                SWI3_IRQHandler
-                0x0001e17e                CCM_AAR_IRQHandler
-                0x0001e17e                WDT_IRQHandler
-                0x0001e17e                TIMER2_IRQHandler
-                0x0001e17e                RNG_IRQHandler
-                0x0001e17e                SPI1_TWI1_IRQHandler
-                0x0001e17e                SWI1_IRQHandler
- .text          0x0001e180      0x120 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m\libgcc.a(_udivsi3.o)
-                0x0001e180                __aeabi_uidiv
-                0x0001e180                __udivsi3
-                0x0001e28c                __aeabi_uidivmod
- .text          0x0001e2a0        0x4 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m\libgcc.a(_dvmd_tls.o)
-                0x0001e2a0                __aeabi_idiv0
-                0x0001e2a0                __aeabi_ldiv0
- .text.memcmp   0x0001e2a4       0x1e c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-memcmp.o)
-                0x0001e2a4                memcmp
- .text.memcpy   0x0001e2c2       0x12 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-memcpy.o)
-                0x0001e2c2                memcpy
- .text.vprintf  0x0001e2d4       0x2c c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-vprintf.o)
-                0x0001e2d4                viprintf
-                0x0001e2d4                vprintf
+                0x0001e080       0xec _build/system_nrf51.o
+                0x0001e080                SystemInit
+ .text          0x0001e16c       0x4c _build/gcc_startup_nrf51.o
+                0x0001e16c                Reset_Handler
+                0x0001e1ac                NMI_Handler
+                0x0001e1ae                HardFault_Handler
+                0x0001e1b0                SVC_Handler
+                0x0001e1b2                PendSV_Handler
+                0x0001e1b4                SysTick_Handler
+                0x0001e1b6                RTC0_IRQHandler
+                0x0001e1b6                POWER_CLOCK_IRQHandler
+                0x0001e1b6                SPI0_TWI0_IRQHandler
+                0x0001e1b6                LPCOMP_IRQHandler
+                0x0001e1b6                SWI4_IRQHandler
+                0x0001e1b6                TEMP_IRQHandler
+                0x0001e1b6                QDEC_IRQHandler
+                0x0001e1b6                SWI5_IRQHandler
+                0x0001e1b6                TIMER0_IRQHandler
+                0x0001e1b6                RADIO_IRQHandler
+                0x0001e1b6                TIMER1_IRQHandler
+                0x0001e1b6                ECB_IRQHandler
+                0x0001e1b6                Default_Handler
+                0x0001e1b6                ADC_IRQHandler
+                0x0001e1b6                SWI3_IRQHandler
+                0x0001e1b6                CCM_AAR_IRQHandler
+                0x0001e1b6                WDT_IRQHandler
+                0x0001e1b6                TIMER2_IRQHandler
+                0x0001e1b6                RNG_IRQHandler
+                0x0001e1b6                SPI1_TWI1_IRQHandler
+                0x0001e1b6                SWI1_IRQHandler
+ .text          0x0001e1b8      0x120 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m\libgcc.a(_udivsi3.o)
+                0x0001e1b8                __aeabi_uidiv
+                0x0001e1b8                __udivsi3
+                0x0001e2c4                __aeabi_uidivmod
+ .text          0x0001e2d8        0x4 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m\libgcc.a(_dvmd_tls.o)
+                0x0001e2d8                __aeabi_idiv0
+                0x0001e2d8                __aeabi_ldiv0
+ .text.memcmp   0x0001e2dc       0x1e c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-memcmp.o)
+                0x0001e2dc                memcmp
+ .text.memcpy   0x0001e2fa       0x12 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-memcpy.o)
+                0x0001e2fa                memcpy
+ .text.vprintf  0x0001e30c       0x2c c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-vprintf.o)
+                0x0001e30c                viprintf
+                0x0001e30c                vprintf
  .text._cleanup_r
-                0x0001e300       0x10 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-findfp.o)
-                0x0001e300                _cleanup_r
+                0x0001e338       0x10 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-findfp.o)
+                0x0001e338                _cleanup_r
  .text.std.isra.0
-                0x0001e310       0x48 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-findfp.o)
+                0x0001e348       0x48 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-findfp.o)
  .text.__sfmoreglue
-                0x0001e358       0x2c c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-findfp.o)
-                0x0001e358                __sfmoreglue
- .text.__sinit  0x0001e384       0x64 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-findfp.o)
-                0x0001e384                __sinit
- .text.__sfp    0x0001e3e8       0x7c c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-findfp.o)
-                0x0001e3e8                __sfp
+                0x0001e390       0x2c c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-findfp.o)
+                0x0001e390                __sfmoreglue
+ .text.__sinit  0x0001e3bc       0x64 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-findfp.o)
+                0x0001e3bc                __sinit
+ .text.__sfp    0x0001e420       0x7c c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-findfp.o)
+                0x0001e420                __sfp
  .text._fwalk_reent
-                0x0001e464       0x42 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-fwalk.o)
-                0x0001e464                _fwalk_reent
- *fill*         0x0001e4a6        0x2 
+                0x0001e49c       0x42 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-fwalk.o)
+                0x0001e49c                _fwalk_reent
+ *fill*         0x0001e4de        0x2 
  .text._malloc_r
-                0x0001e4a8       0xb0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-nano-mallocr.o)
-                0x0001e4a8                _malloc_r
+                0x0001e4e0       0xb0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-nano-mallocr.o)
+                0x0001e4e0                _malloc_r
  .text.__sfputc_r
-                0x0001e558       0x2a c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-nano-vfprintf.o)
+                0x0001e590       0x2a c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-nano-vfprintf.o)
  .text.__sfputs_r
-                0x0001e582       0x24 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-nano-vfprintf.o)
-                0x0001e582                __sfputs_r
- *fill*         0x0001e5a6        0x2 
+                0x0001e5ba       0x24 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-nano-vfprintf.o)
+                0x0001e5ba                __sfputs_r
+ *fill*         0x0001e5de        0x2 
  .text._vfprintf_r
-                0x0001e5a8      0x220 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-nano-vfprintf.o)
-                0x0001e5a8                _vfprintf_r
-                0x0001e5a8                _vfiprintf_r
+                0x0001e5e0      0x220 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-nano-vfprintf.o)
+                0x0001e5e0                _vfprintf_r
+                0x0001e5e0                _vfiprintf_r
  .text._printf_common
-                0x0001e7c8       0xdc c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-nano-vfprintf_i.o)
-                0x0001e7c8                _printf_common
+                0x0001e800       0xdc c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-nano-vfprintf_i.o)
+                0x0001e800                _printf_common
  .text._printf_i
-                0x0001e8a4      0x230 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-nano-vfprintf_i.o)
-                0x0001e8a4                _printf_i
- .text._sbrk_r  0x0001ead4       0x24 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-sbrkr.o)
-                0x0001ead4                _sbrk_r
- .text.__sread  0x0001eaf8       0x28 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-stdio.o)
-                0x0001eaf8                __sread
+                0x0001e8dc      0x230 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-nano-vfprintf_i.o)
+                0x0001e8dc                _printf_i
+ .text._sbrk_r  0x0001eb0c       0x24 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-sbrkr.o)
+                0x0001eb0c                _sbrk_r
+ .text.__sread  0x0001eb30       0x28 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-stdio.o)
+                0x0001eb30                __sread
  .text.__swrite
-                0x0001eb20       0x38 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-stdio.o)
-                0x0001eb20                __swrite
- .text.__sseek  0x0001eb58       0x2c c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-stdio.o)
-                0x0001eb58                __sseek
+                0x0001eb58       0x38 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-stdio.o)
+                0x0001eb58                __swrite
+ .text.__sseek  0x0001eb90       0x2c c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-stdio.o)
+                0x0001eb90                __sseek
  .text.__sclose
-                0x0001eb84        0xc c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-stdio.o)
-                0x0001eb84                __sclose
+                0x0001ebbc        0xc c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-stdio.o)
+                0x0001ebbc                __sclose
  .text.__swbuf_r
-                0x0001eb90       0xb0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-wbuf.o)
-                0x0001eb90                __swbuf_r
+                0x0001ebc8       0xb0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-wbuf.o)
+                0x0001ebc8                __swbuf_r
  .text._write_r
-                0x0001ec40       0x28 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-writer.o)
-                0x0001ec40                _write_r
+                0x0001ec78       0x28 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-writer.o)
+                0x0001ec78                _write_r
  .text.__swsetup_r
-                0x0001ec68       0xe8 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-wsetup.o)
-                0x0001ec68                __swsetup_r
+                0x0001eca0       0xe8 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-wsetup.o)
+                0x0001eca0                __swsetup_r
  .text._close_r
-                0x0001ed50       0x24 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-closer.o)
-                0x0001ed50                _close_r
+                0x0001ed88       0x24 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-closer.o)
+                0x0001ed88                _close_r
  .text.__sflush_r
-                0x0001ed74      0x112 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-fflush.o)
-                0x0001ed74                __sflush_r
- *fill*         0x0001ee86        0x2 
+                0x0001edac      0x112 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-fflush.o)
+                0x0001edac                __sflush_r
+ *fill*         0x0001eebe        0x2 
  .text._fflush_r
-                0x0001ee88       0x58 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-fflush.o)
-                0x0001ee88                _fflush_r
+                0x0001eec0       0x58 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-fflush.o)
+                0x0001eec0                _fflush_r
  .text._lseek_r
-                0x0001eee0       0x28 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-lseekr.o)
-                0x0001eee0                _lseek_r
+                0x0001ef18       0x28 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-lseekr.o)
+                0x0001ef18                _lseek_r
  .text.__smakebuf_r
-                0x0001ef08       0xb0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-makebuf.o)
-                0x0001ef08                __smakebuf_r
- .text.memchr   0x0001efb8       0x16 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-memchr.o)
-                0x0001efb8                memchr
- *fill*         0x0001efce        0x2 
- .text._free_r  0x0001efd0       0x8c c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-nano-freer.o)
-                0x0001efd0                _free_r
- .text._read_r  0x0001f05c       0x28 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-readr.o)
-                0x0001f05c                _read_r
+                0x0001ef40       0xb0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-makebuf.o)
+                0x0001ef40                __smakebuf_r
+ .text.memchr   0x0001eff0       0x16 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-memchr.o)
+                0x0001eff0                memchr
+ *fill*         0x0001f006        0x2 
+ .text._free_r  0x0001f008       0x8c c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-nano-freer.o)
+                0x0001f008                _free_r
+ .text._read_r  0x0001f094       0x28 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-readr.o)
+                0x0001f094                _read_r
  .text._fstat_r
-                0x0001f084       0x24 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-fstatr.o)
-                0x0001f084                _fstat_r
+                0x0001f0bc       0x24 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-fstatr.o)
+                0x0001f0bc                _fstat_r
  .text._isatty_r
-                0x0001f0a8       0x24 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-isattyr.o)
-                0x0001f0a8                _isatty_r
- .text._close   0x0001f0cc       0x10 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libnosys.a(close.o)
-                0x0001f0cc                _close
- .text._fstat   0x0001f0dc       0x10 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libnosys.a(fstat.o)
-                0x0001f0dc                _fstat
- .text._isatty  0x0001f0ec       0x10 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libnosys.a(isatty.o)
-                0x0001f0ec                _isatty
- .text._lseek   0x0001f0fc       0x10 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libnosys.a(lseek.o)
-                0x0001f0fc                _lseek
- .text._sbrk    0x0001f10c       0x1c c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libnosys.a(sbrk.o)
-                0x0001f10c                _sbrk
+                0x0001f0e0       0x24 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-isattyr.o)
+                0x0001f0e0                _isatty_r
+ .text._close   0x0001f104       0x10 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libnosys.a(close.o)
+                0x0001f104                _close
+ .text._fstat   0x0001f114       0x10 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libnosys.a(fstat.o)
+                0x0001f114                _fstat
+ .text._isatty  0x0001f124       0x10 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libnosys.a(isatty.o)
+                0x0001f124                _isatty
+ .text._lseek   0x0001f134       0x10 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libnosys.a(lseek.o)
+                0x0001f134                _lseek
+ .text._sbrk    0x0001f144       0x1c c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libnosys.a(sbrk.o)
+                0x0001f144                _sbrk
  *(.init)
- .init          0x0001f128        0x4 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crti.o
-                0x0001f128                _init
- .init          0x0001f12c        0x8 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtn.o
+ .init          0x0001f160        0x4 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crti.o
+                0x0001f160                _init
+ .init          0x0001f164        0x8 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtn.o
  *(.fini)
- .fini          0x0001f134        0x4 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crti.o
-                0x0001f134                _fini
- .fini          0x0001f138        0x8 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtn.o
+ .fini          0x0001f16c        0x4 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crti.o
+                0x0001f16c                _fini
+ .fini          0x0001f170        0x8 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtn.o
  *crtbegin.o(.ctors)
  *crtbegin?.o(.ctors)
  *(EXCLUDE_FILE(*crtend.o *crtend?.o) .ctors)
@@ -4499,75 +4499,75 @@ Linker script and memory map
  *(.dtors)
  *(.rodata*)
  .rodata.str1.1
-                0x0001f140        0x2 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-impure.o)
- *fill*         0x0001f142        0x2 
+                0x0001f178        0x2 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-impure.o)
+ *fill*         0x0001f17a        0x2 
  .rodata._global_impure_ptr
-                0x0001f144        0x4 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-impure.o)
-                0x0001f144                _global_impure_ptr
- .rodata        0x0001f148        0x4 _build/main.o
+                0x0001f17c        0x4 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-impure.o)
+                0x0001f17c                _global_impure_ptr
+ .rodata        0x0001f180        0x4 _build/main.o
  .rodata.str1.4
-                0x0001f14c       0x1a _build/main.o
- *fill*         0x0001f166        0x2 
+                0x0001f184       0x1a _build/main.o
+ *fill*         0x0001f19e        0x2 
  .rodata.str1.4
-                0x0001f168       0x9e _build/application.o
- *fill*         0x0001f206        0x2 
- .rodata        0x0001f208        0x7 _build/transport.o
- *fill*         0x0001f20f        0x1 
- .rodata.str1.4
-                0x0001f210       0x4c _build/transport.o
+                0x0001f1a0       0xc6 _build/application.o
+ *fill*         0x0001f266        0x2 
+ .rodata        0x0001f268        0x7 _build/transport.o
+ *fill*         0x0001f26f        0x1 
  .rodata.beacon_refresh_id
-                0x0001f25c        0x4 _build/transport.o
+                0x0001f270        0x4 _build/transport.o
+ .rodata.str1.4
+                0x0001f274       0x4c _build/transport.o
  .rodata.m_default_config
-                0x0001f260       0x20 _build/nrf_drv_uart.o
- .rodata        0x0001f280       0x20 _build/app_uart_fifo.o
- .rodata        0x0001f2a0        0xc _build/nrf_log.o
+                0x0001f2c0       0x20 _build/nrf_drv_uart.o
+ .rodata        0x0001f2e0       0x20 _build/app_uart_fifo.o
+ .rodata        0x0001f300        0xc _build/nrf_log.o
  .rodata.__sf_fake_stdin
-                0x0001f2ac       0x20 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-findfp.o)
-                0x0001f2ac                __sf_fake_stdin
+                0x0001f30c       0x20 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-findfp.o)
+                0x0001f30c                __sf_fake_stdin
  .rodata.__sf_fake_stdout
-                0x0001f2cc       0x20 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-findfp.o)
-                0x0001f2cc                __sf_fake_stdout
+                0x0001f32c       0x20 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-findfp.o)
+                0x0001f32c                __sf_fake_stdout
  .rodata.__sf_fake_stderr
-                0x0001f2ec       0x20 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-findfp.o)
-                0x0001f2ec                __sf_fake_stderr
+                0x0001f34c       0x20 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-findfp.o)
+                0x0001f34c                __sf_fake_stderr
  .rodata.str1.1
-                0x0001f30c       0x11 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-nano-vfprintf.o)
+                0x0001f36c       0x11 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-nano-vfprintf.o)
  .rodata.str1.1
-                0x0001f31d       0x22 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-nano-vfprintf_i.o)
+                0x0001f37d       0x22 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libc_nano.a(lib_a-nano-vfprintf_i.o)
  *(.eh_frame*)
- *fill*         0x0001f33f        0x1 
- .eh_frame      0x0001f340        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtbegin.o
- .eh_frame      0x0001f340        0x4 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtend.o
+ *fill*         0x0001f39f        0x1 
+ .eh_frame      0x0001f3a0        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtbegin.o
+ .eh_frame      0x0001f3a0        0x4 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtend.o
 
-.glue_7         0x0001f344        0x0
+.glue_7         0x0001f3a4        0x0
  .glue_7        0x00000000        0x0 linker stubs
 
-.glue_7t        0x0001f344        0x0
+.glue_7t        0x0001f3a4        0x0
  .glue_7t       0x00000000        0x0 linker stubs
 
-.vfp11_veneer   0x0001f344        0x0
+.vfp11_veneer   0x0001f3a4        0x0
  .vfp11_veneer  0x00000000        0x0 linker stubs
 
-.v4_bx          0x0001f344        0x0
+.v4_bx          0x0001f3a4        0x0
  .v4_bx         0x00000000        0x0 linker stubs
 
-.iplt           0x0001f344        0x0
+.iplt           0x0001f3a4        0x0
  .iplt          0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtbegin.o
 
 .ARM.extab
  *(.ARM.extab* .gnu.linkonce.armextab.*)
-                0x0001f344                __exidx_start = .
+                0x0001f3a4                __exidx_start = .
 
-.ARM.exidx      0x0001f344        0x8
+.ARM.exidx      0x0001f3a4        0x8
  *(.ARM.exidx* .gnu.linkonce.armexidx.*)
- .ARM.exidx     0x0001f344        0x8 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m/crt0.o
-                0x0001f34c                __exidx_end = .
-                0x0001f34c                __etext = .
+ .ARM.exidx     0x0001f3a4        0x8 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m/crt0.o
+                0x0001f3ac                __exidx_end = .
+                0x0001f3ac                __etext = .
 
-.rel.dyn        0x0001f34c        0x0
+.rel.dyn        0x0001f3ac        0x0
  .rel.iplt      0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtbegin.o
 
-.data           0x20001eb0       0x74 load address 0x0001f34c
+.data           0x20001eb0       0x74 load address 0x0001f3ac
                 0x20001eb0                __data_start__ = .
  *(vtable)
  *(.data*)
@@ -4578,8 +4578,11 @@ Linker script and memory map
                 0x20001f10                _impure_ptr
  .data.min_rssi
                 0x20001f14        0x1 _build/transport.o
+ *fill*         0x20001f15        0x1 
+ .data.source_id
+                0x20001f16        0x2 _build/transport.o
+                0x20001f16                source_id
                 0x20001f18                . = ALIGN (0x4)
- *fill*         0x20001f15        0x3 
                 0x20001f18                PROVIDE (__preinit_array_start, .)
  *(.preinit_array)
                 0x20001f18                PROVIDE (__preinit_array_end, .)
@@ -4657,7 +4660,7 @@ LOAD c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm
 LOAD c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libnosys.a
 END GROUP
 
-.igot.plt       0x20001f24        0x0 load address 0x0001f3c0
+.igot.plt       0x20001f24        0x0 load address 0x0001f420
  .igot.plt      0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtbegin.o
 
 .fs_data        0x20001f24        0x0
@@ -4665,14 +4668,14 @@ END GROUP
  *(.fs_data)
                 0x20001f24                PROVIDE (__stop_fs_data, .)
 
-.bss            0x20001f24      0x7b0 load address 0x0001f3c0
+.bss            0x20001f24      0x7b0 load address 0x0001f420
                 0x20001f24                . = ALIGN (0x4)
                 0x20001f24                __bss_start__ = .
  *(.bss*)
  .bss           0x20001f24       0x1c c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtbegin.o
- .bss.BLE_EVT_BUFFER.8273
+ .bss.BLE_EVT_BUFFER.8274
                 0x20001f40       0x48 _build/main.o
- .bss.APP_TIMER_BUF.8296
+ .bss.APP_TIMER_BUF.8297
                 0x20001f88      0x138 _build/main.o
  .bss.m_scan_param
                 0x200020c0       0x10 _build/main.o
@@ -4836,9 +4839,9 @@ END GROUP
 .stack_dummy    0x200026d8      0x800
  *(.stack*)
  .stack         0x200026d8      0x800 _build/gcc_startup_nrf51.o
-                0x20006000                __StackTop = (ORIGIN (RAM) + 0x4150)
-                0x20005800                __StackLimit = (__StackTop - SIZEOF (.stack_dummy))
-                0x20006000                PROVIDE (__stack, __StackTop)
+                0x20008000                __StackTop = (ORIGIN (RAM) + 0x6150)
+                0x20007800                __StackLimit = (__StackTop - SIZEOF (.stack_dummy))
+                0x20008000                PROVIDE (__stack, __StackTop)
                 0x00000001                ASSERT ((__StackLimit >= __HeapLimit), region RAM overflowed with stack)
 OUTPUT(_build/nrf51422_xxac_s130.out elf32-littlearm)
 
@@ -5041,67 +5044,67 @@ OUTPUT(_build/nrf51422_xxac_s130.out elf32-littlearm)
  .debug_frame   0x000019c0       0x20 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libnosys.a(lseek.o)
  .debug_frame   0x000019e0       0x20 c:/program files (x86)/gnu tools arm embedded/4.9 2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m\libnosys.a(sbrk.o)
 
-.debug_info     0x00000000    0x17bf7
+.debug_info     0x00000000    0x17c17
  .debug_info    0x00000000     0x1e00 _build/main.o
- .debug_info    0x00001e00      0x481 _build/application.o
- .debug_info    0x00002281     0x24ff _build/transport.o
- .debug_info    0x00004780     0x1cd8 _build/ble_advdata.o
- .debug_info    0x00006458     0x2179 _build/ble_advertising.o
- .debug_info    0x000085d1      0x469 _build/nrf_drv_common.o
- .debug_info    0x00008a3a     0x1f9a _build/nrf_drv_gpiote.o
- .debug_info    0x0000a9d4     0x3683 _build/pstorage.o
- .debug_info    0x0000e057     0x24b4 _build/nrf_drv_uart.o
- .debug_info    0x0001050b      0x5de _build/app_fifo.o
- .debug_info    0x00010ae9     0x1070 _build/fstorage.o
- .debug_info    0x00011b59     0x1bf6 _build/app_timer.o
- .debug_info    0x0001374f      0xa0d _build/retarget.o
- .debug_info    0x0001415c      0xb39 _build/app_uart_fifo.o
- .debug_info    0x00014c95      0x334 _build/app_error.o
- .debug_info    0x00014fc9      0x1ec _build/app_error_weak.o
- .debug_info    0x000151b5      0x7b2 _build/nrf_log.o
- .debug_info    0x00015967     0x20b7 _build/softdevice_handler.o
- .debug_info    0x00017a1e      0x1d9 _build/system_nrf51.o
+ .debug_info    0x00001e00      0x4b2 _build/application.o
+ .debug_info    0x000022b2     0x24ee _build/transport.o
+ .debug_info    0x000047a0     0x1cd8 _build/ble_advdata.o
+ .debug_info    0x00006478     0x2179 _build/ble_advertising.o
+ .debug_info    0x000085f1      0x469 _build/nrf_drv_common.o
+ .debug_info    0x00008a5a     0x1f9a _build/nrf_drv_gpiote.o
+ .debug_info    0x0000a9f4     0x3683 _build/pstorage.o
+ .debug_info    0x0000e077     0x24b4 _build/nrf_drv_uart.o
+ .debug_info    0x0001052b      0x5de _build/app_fifo.o
+ .debug_info    0x00010b09     0x1070 _build/fstorage.o
+ .debug_info    0x00011b79     0x1bf6 _build/app_timer.o
+ .debug_info    0x0001376f      0xa0d _build/retarget.o
+ .debug_info    0x0001417c      0xb39 _build/app_uart_fifo.o
+ .debug_info    0x00014cb5      0x334 _build/app_error.o
+ .debug_info    0x00014fe9      0x1ec _build/app_error_weak.o
+ .debug_info    0x000151d5      0x7b2 _build/nrf_log.o
+ .debug_info    0x00015987     0x20b7 _build/softdevice_handler.o
+ .debug_info    0x00017a3e      0x1d9 _build/system_nrf51.o
 
-.debug_abbrev   0x00000000     0x37f5
+.debug_abbrev   0x00000000     0x37dd
  .debug_abbrev  0x00000000      0x36d _build/main.o
- .debug_abbrev  0x0000036d      0x1ef _build/application.o
- .debug_abbrev  0x0000055c      0x42d _build/transport.o
- .debug_abbrev  0x00000989      0x366 _build/ble_advdata.o
- .debug_abbrev  0x00000cef      0x434 _build/ble_advertising.o
- .debug_abbrev  0x00001123      0x188 _build/nrf_drv_common.o
- .debug_abbrev  0x000012ab      0x462 _build/nrf_drv_gpiote.o
- .debug_abbrev  0x0000170d      0x439 _build/pstorage.o
- .debug_abbrev  0x00001b46      0x3f8 _build/nrf_drv_uart.o
- .debug_abbrev  0x00001f3e      0x17b _build/app_fifo.o
- .debug_abbrev  0x000020b9      0x3db _build/fstorage.o
- .debug_abbrev  0x00002494      0x403 _build/app_timer.o
- .debug_abbrev  0x00002897      0x223 _build/retarget.o
- .debug_abbrev  0x00002aba      0x242 _build/app_uart_fifo.o
- .debug_abbrev  0x00002cfc      0x130 _build/app_error.o
- .debug_abbrev  0x00002e2c      0x108 _build/app_error_weak.o
- .debug_abbrev  0x00002f34      0x2d8 _build/nrf_log.o
- .debug_abbrev  0x0000320c      0x4ed _build/softdevice_handler.o
- .debug_abbrev  0x000036f9       0xfc _build/system_nrf51.o
+ .debug_abbrev  0x0000036d      0x1e6 _build/application.o
+ .debug_abbrev  0x00000553      0x41e _build/transport.o
+ .debug_abbrev  0x00000971      0x366 _build/ble_advdata.o
+ .debug_abbrev  0x00000cd7      0x434 _build/ble_advertising.o
+ .debug_abbrev  0x0000110b      0x188 _build/nrf_drv_common.o
+ .debug_abbrev  0x00001293      0x462 _build/nrf_drv_gpiote.o
+ .debug_abbrev  0x000016f5      0x439 _build/pstorage.o
+ .debug_abbrev  0x00001b2e      0x3f8 _build/nrf_drv_uart.o
+ .debug_abbrev  0x00001f26      0x17b _build/app_fifo.o
+ .debug_abbrev  0x000020a1      0x3db _build/fstorage.o
+ .debug_abbrev  0x0000247c      0x403 _build/app_timer.o
+ .debug_abbrev  0x0000287f      0x223 _build/retarget.o
+ .debug_abbrev  0x00002aa2      0x242 _build/app_uart_fifo.o
+ .debug_abbrev  0x00002ce4      0x130 _build/app_error.o
+ .debug_abbrev  0x00002e14      0x108 _build/app_error_weak.o
+ .debug_abbrev  0x00002f1c      0x2d8 _build/nrf_log.o
+ .debug_abbrev  0x000031f4      0x4ed _build/softdevice_handler.o
+ .debug_abbrev  0x000036e1       0xfc _build/system_nrf51.o
 
-.debug_loc      0x00000000     0xb986
+.debug_loc      0x00000000     0xb9cc
  .debug_loc     0x00000000      0x1b2 _build/main.o
- .debug_loc     0x000001b2      0x133 _build/application.o
- .debug_loc     0x000002e5      0x7ab _build/transport.o
- .debug_loc     0x00000a90     0x1f63 _build/ble_advdata.o
- .debug_loc     0x000029f3      0x5a8 _build/ble_advertising.o
- .debug_loc     0x00002f9b       0xa2 _build/nrf_drv_common.o
- .debug_loc     0x0000303d     0x1882 _build/nrf_drv_gpiote.o
- .debug_loc     0x000048bf     0x3203 _build/pstorage.o
- .debug_loc     0x00007ac2     0x1170 _build/nrf_drv_uart.o
- .debug_loc     0x00008c32      0x592 _build/app_fifo.o
- .debug_loc     0x000091c4      0x7f8 _build/fstorage.o
- .debug_loc     0x000099bc     0x125e _build/app_timer.o
- .debug_loc     0x0000ac1a      0x11a _build/retarget.o
- .debug_loc     0x0000ad34      0x3bd _build/app_uart_fifo.o
- .debug_loc     0x0000b0f1      0x149 _build/app_error.o
- .debug_loc     0x0000b23a       0x21 _build/app_error_weak.o
- .debug_loc     0x0000b25b      0x2f3 _build/nrf_log.o
- .debug_loc     0x0000b54e      0x438 _build/softdevice_handler.o
+ .debug_loc     0x000001b2      0x15d _build/application.o
+ .debug_loc     0x0000030f      0x7c7 _build/transport.o
+ .debug_loc     0x00000ad6     0x1f63 _build/ble_advdata.o
+ .debug_loc     0x00002a39      0x5a8 _build/ble_advertising.o
+ .debug_loc     0x00002fe1       0xa2 _build/nrf_drv_common.o
+ .debug_loc     0x00003083     0x1882 _build/nrf_drv_gpiote.o
+ .debug_loc     0x00004905     0x3203 _build/pstorage.o
+ .debug_loc     0x00007b08     0x1170 _build/nrf_drv_uart.o
+ .debug_loc     0x00008c78      0x592 _build/app_fifo.o
+ .debug_loc     0x0000920a      0x7f8 _build/fstorage.o
+ .debug_loc     0x00009a02     0x125e _build/app_timer.o
+ .debug_loc     0x0000ac60      0x11a _build/retarget.o
+ .debug_loc     0x0000ad7a      0x3bd _build/app_uart_fifo.o
+ .debug_loc     0x0000b137      0x149 _build/app_error.o
+ .debug_loc     0x0000b280       0x21 _build/app_error_weak.o
+ .debug_loc     0x0000b2a1      0x2f3 _build/nrf_log.o
+ .debug_loc     0x0000b594      0x438 _build/softdevice_handler.o
 
 .debug_aranges  0x00000000      0x6d8
  .debug_aranges
@@ -5143,26 +5146,26 @@ OUTPUT(_build/nrf51422_xxac_s130.out elf32-littlearm)
  .debug_aranges
                 0x000006b0       0x28 _build/system_nrf51.o
 
-.debug_ranges   0x00000000     0x2bb8
+.debug_ranges   0x00000000     0x2bd0
  .debug_ranges  0x00000000      0x168 _build/main.o
- .debug_ranges  0x00000168       0x30 _build/application.o
- .debug_ranges  0x00000198      0x190 _build/transport.o
- .debug_ranges  0x00000328      0x250 _build/ble_advdata.o
- .debug_ranges  0x00000578       0xd8 _build/ble_advertising.o
- .debug_ranges  0x00000650       0x28 _build/nrf_drv_common.o
- .debug_ranges  0x00000678      0x908 _build/nrf_drv_gpiote.o
- .debug_ranges  0x00000f80      0xba0 _build/pstorage.o
- .debug_ranges  0x00001b20      0x4b0 _build/nrf_drv_uart.o
- .debug_ranges  0x00001fd0       0xe8 _build/app_fifo.o
- .debug_ranges  0x000020b8      0x1b8 _build/fstorage.o
- .debug_ranges  0x00002270      0x640 _build/app_timer.o
- .debug_ranges  0x000028b0       0x18 _build/retarget.o
- .debug_ranges  0x000028c8       0x88 _build/app_uart_fifo.o
- .debug_ranges  0x00002950       0x20 _build/app_error.o
- .debug_ranges  0x00002970       0x10 _build/app_error_weak.o
- .debug_ranges  0x00002980       0x78 _build/nrf_log.o
- .debug_ranges  0x000029f8      0x148 _build/softdevice_handler.o
- .debug_ranges  0x00002b40       0x78 _build/system_nrf51.o
+ .debug_ranges  0x00000168       0x48 _build/application.o
+ .debug_ranges  0x000001b0      0x190 _build/transport.o
+ .debug_ranges  0x00000340      0x250 _build/ble_advdata.o
+ .debug_ranges  0x00000590       0xd8 _build/ble_advertising.o
+ .debug_ranges  0x00000668       0x28 _build/nrf_drv_common.o
+ .debug_ranges  0x00000690      0x908 _build/nrf_drv_gpiote.o
+ .debug_ranges  0x00000f98      0xba0 _build/pstorage.o
+ .debug_ranges  0x00001b38      0x4b0 _build/nrf_drv_uart.o
+ .debug_ranges  0x00001fe8       0xe8 _build/app_fifo.o
+ .debug_ranges  0x000020d0      0x1b8 _build/fstorage.o
+ .debug_ranges  0x00002288      0x640 _build/app_timer.o
+ .debug_ranges  0x000028c8       0x18 _build/retarget.o
+ .debug_ranges  0x000028e0       0x88 _build/app_uart_fifo.o
+ .debug_ranges  0x00002968       0x20 _build/app_error.o
+ .debug_ranges  0x00002988       0x10 _build/app_error_weak.o
+ .debug_ranges  0x00002998       0x78 _build/nrf_log.o
+ .debug_ranges  0x00002a10      0x148 _build/softdevice_handler.o
+ .debug_ranges  0x00002b58       0x78 _build/system_nrf51.o
 
 .debug_macro    0x00000000     0xf23d
  .debug_macro   0x00000000      0x3f6 _build/main.o
@@ -5281,32 +5284,32 @@ OUTPUT(_build/nrf51422_xxac_s130.out elf32-littlearm)
  .debug_macro   0x0000f15d       0x10 _build/softdevice_handler.o
  .debug_macro   0x0000f16d       0xd0 _build/system_nrf51.o
 
-.debug_line     0x00000000     0xba83
+.debug_line     0x00000000     0xba9b
  .debug_line    0x00000000      0xc7e _build/main.o
- .debug_line    0x00000c7e      0x673 _build/application.o
- .debug_line    0x000012f1      0xcf8 _build/transport.o
- .debug_line    0x00001fe9      0xaa5 _build/ble_advdata.o
- .debug_line    0x00002a8e      0xaea _build/ble_advertising.o
- .debug_line    0x00003578      0x757 _build/nrf_drv_common.o
- .debug_line    0x00003ccf      0xfe5 _build/nrf_drv_gpiote.o
- .debug_line    0x00004cb4     0x12c1 _build/pstorage.o
- .debug_line    0x00005f75      0xd51 _build/nrf_drv_uart.o
- .debug_line    0x00006cc6      0x6ec _build/app_fifo.o
- .debug_line    0x000073b2      0x880 _build/fstorage.o
- .debug_line    0x00007c32      0xc5c _build/app_timer.o
- .debug_line    0x0000888e      0x647 _build/retarget.o
- .debug_line    0x00008ed5      0x98b _build/app_uart_fifo.o
- .debug_line    0x00009860      0x5b8 _build/app_error.o
- .debug_line    0x00009e18      0x57b _build/app_error_weak.o
- .debug_line    0x0000a393      0x89e _build/nrf_log.o
- .debug_line    0x0000ac31      0xa76 _build/softdevice_handler.o
- .debug_line    0x0000b6a7      0x3dc _build/system_nrf51.o
+ .debug_line    0x00000c7e      0x675 _build/application.o
+ .debug_line    0x000012f3      0xd0e _build/transport.o
+ .debug_line    0x00002001      0xaa5 _build/ble_advdata.o
+ .debug_line    0x00002aa6      0xaea _build/ble_advertising.o
+ .debug_line    0x00003590      0x757 _build/nrf_drv_common.o
+ .debug_line    0x00003ce7      0xfe5 _build/nrf_drv_gpiote.o
+ .debug_line    0x00004ccc     0x12c1 _build/pstorage.o
+ .debug_line    0x00005f8d      0xd51 _build/nrf_drv_uart.o
+ .debug_line    0x00006cde      0x6ec _build/app_fifo.o
+ .debug_line    0x000073ca      0x880 _build/fstorage.o
+ .debug_line    0x00007c4a      0xc5c _build/app_timer.o
+ .debug_line    0x000088a6      0x647 _build/retarget.o
+ .debug_line    0x00008eed      0x98b _build/app_uart_fifo.o
+ .debug_line    0x00009878      0x5b8 _build/app_error.o
+ .debug_line    0x00009e30      0x57b _build/app_error_weak.o
+ .debug_line    0x0000a3ab      0x89e _build/nrf_log.o
+ .debug_line    0x0000ac49      0xa76 _build/softdevice_handler.o
+ .debug_line    0x0000b6bf      0x3dc _build/system_nrf51.o
 
 .debug_str      0x00000000    0x47620
  .debug_str     0x00000000    0x3e3de _build/main.o
                               0x3e771 (size before relaxing)
  .debug_str     0x0003e3de      0x1b7 _build/application.o
-                              0x36e9b (size before relaxing)
+                              0x36ea5 (size before relaxing)
  .debug_str     0x0003e595      0xb99 _build/transport.o
                               0x3e49f (size before relaxing)
  .debug_str     0x0003f12e     0x18db _build/ble_advdata.o

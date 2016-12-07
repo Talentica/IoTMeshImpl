@@ -25,10 +25,10 @@ typedef struct
     volatile bool isRssiValid;
 } BEACON_RSSI_ADDR_T;
 
-
 extern BEACON_RSSI_ADDR_T   beacons[3];
 extern uint8_t min_index;
 extern volatile uint8_t numberOfElements;
+extern uint16_t source_id;
 
 
 extern void on_ble_evt(ble_evt_t * p_ble_evt);

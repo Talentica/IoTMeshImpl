@@ -25,6 +25,12 @@ static void mesh_get_peer_location(uint16_t destination_id)
     uint8_t opcode = OPCODE_LOCATION_GET;
     uint8_t data[2];
 
+    if(destination_id == source_id)
+    {
+    	APPL_LOG("Trying to ping ourselves... Sorry.\r\n");
+    	return;
+    }
+
     data[0] = destination_id & 0x00FF;
     data[1] = (destination_id >> 8) & 0x00FF;
 
