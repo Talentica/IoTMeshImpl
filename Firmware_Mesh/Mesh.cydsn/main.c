@@ -91,7 +91,7 @@ static int8 FindDeviceInList(uint16 incomingSourceId)
 }
 
 
-void TimerIsr(void)
+static void TimerIsr(void)
 {
     /* Decrement the counters for all the valid devices nearby.
      * When a device counter expires, erase it from the list.
@@ -130,13 +130,13 @@ void TimerIsr(void)
 /* Data consists of Opcode (1) + Source ID (2) + Destination ID (2) + Parameter
  *
  */
-void SendMeshPacket(uint8 opcode, const uint8 * data, uint8 length)
+static void SendMeshPacket(uint8 opcode, const uint8 * data, uint8 length)
 {
     CYMESH_VARIABLE_DATA_T packet;
     
     packet.data[0] = opcode & MASK_OPCODE;
     memcpy(&packet.data[1], data, length);
-    packet.len = length;
+    packet.len = length + 1;
     
     CyMesh_VendorSpecificSendDataUnreliable(packet, 
                                             CYMESH_MDL_VENDOR_SPECIFIC_COMP_3, 
@@ -144,7 +144,7 @@ void SendMeshPacket(uint8 opcode, const uint8 * data, uint8 length)
 }
 
 
-void SendDataBeacon(const uint8 * payload, uint8 payloadLength)
+static void SendDataBeacon(uint8 opcode, const uint8 * payload, uint8 payloadLength)
 {
     uint8 data[20];
     uint8 length = 0;
@@ -155,23 +155,23 @@ void SendDataBeacon(const uint8 * payload, uint8 payloadLength)
     data[2] = CYBLE_GAP_ADV_FLAG_LE_GENERAL_DISC_MODE | CYBLE_GAP_ADV_FLAG_BR_EDR_NOT_SUPPORTED;
     
     /* Manufacturer data */
-    data[3] = payloadLength + 5;
+    data[3] = payloadLength + 6;
     data[4] = ADV_TYPE_MANUFACTURER_DATA;
     data[5] = MANUFACTURER_ID_TALENTICA_LSB;
     data[6] = MANUFACTURER_ID_TALENTICA_MSB;
-    data[7] = (SEND_DATA << BIT_POS_IS_DATA) | (DEVICE_MESH << BIT_POS_IS_PERIPHERAL) | (payload[0] & MASK_OPCODE);
+    data[7] = (SEND_DATA << BIT_POS_IS_DATA) | (DEVICE_MESH << BIT_POS_IS_PERIPHERAL) | (opcode & MASK_OPCODE);
     data[8] = beaconId & 0x00FF;
     data[9] = (beaconId >> 8) & 0x00FF;
-    memcpy(&data[10], &payload[1], payloadLength - 1);
+    memcpy(&data[10], payload, payloadLength);
     
-    length = payloadLength + 9;
-    
+    length = payloadLength + 10;
+
     /* Call the mesh API to send custom beacon */
     CyMesh_BearerSendData(data, length, CYMESH_BEARER_CUSTOM_ADV, 2, false, true);
 }
 
 
-void SendEmptyBeacon(void)
+static void SendEmptyBeacon(void)
 {
     uint8 data[10];
     uint8 length = 0;
@@ -234,10 +234,9 @@ void MeshEventHandler(uint32 event, void * eventParam, uint8 compIndex, uint8 mo
             if(FindDeviceInList(incomingDestinationId) >= 0)
             {
                 /* Send the data coming from mesh as a beacon.
-                 * This API has to be supplied by Cypress.
-                 * Ensure that the beacon goes out only once (should be default in the API). 
                  */
-                SendDataBeacon(data, data_len);
+                printf("Received mesh data. Sending to peripheral...\r\n");
+                SendDataBeacon(data[0], &data[1], data_len - 1);
             }
             else
             {
@@ -363,7 +362,8 @@ void GenericEventHandler(uint32 event, void * eventParam)
                 else
                 {
                     uint8_t opcode = data[index] & MASK_OPCODE;
-                    uint8_t length = data_len - index - 2;
+                    uint8_t length = data_len - index - 3;
+                    uint16_t incomingDestinationId = (data[index + 6] << 8) | data[index + 5];
 
                     /* If the incomingSourceId is not part of the list, drop packet */
                     if(FindDeviceInList(incomingSourceId) == -1)
@@ -371,8 +371,19 @@ void GenericEventHandler(uint32 event, void * eventParam)
                         break;
                     }
                     
-                    /* Send packet to the mesh network */
-                    SendMeshPacket(opcode, &data[index + 3], length);
+                    /* If the destination is part of the list, simply beacon */
+                    if(FindDeviceInList(incomingDestinationId) >= 0)
+                    {
+                        printf("Destination in range. Skipping mesh...\r\n");
+                        SendDataBeacon(opcode, &data[index + 3], length);
+                    }
+                    else
+                    {
+                        printf("Sending mesh data...\r\n");
+                        
+                        /* Send packet to the mesh network */
+                        SendMeshPacket(opcode, &data[index + 3], length);
+                    }
                 }
             }
             break;
